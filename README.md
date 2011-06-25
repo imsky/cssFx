@@ -30,4 +30,4 @@ Todo
   * border-image
   * user-select
   * flexbox
-  * <link> support
+  * &lt;link&gt; support
