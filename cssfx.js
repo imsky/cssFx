@@ -12,9 +12,12 @@ function strip_css_comments(str) {
 	var regex = /\/\*([\s\S]*?)\*\//gim;
 	return str.replace(regex, "");
 }
+
 var supported_rules = ["border-radius", "box-shadow", "text-overflow", "user-select"];
+var prefix = ["-moz-","-webkit-","-o-","-khtml-"];
 var regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var styleElements = document.getElementsByTagName("style");
+
 for (var x = 0, xlen = styleElements.length; x < xlen; x++) {
 	var cssFxOutput = document.createElement('style');
 	cssFxOutput.setAttribute('type', 'text/css');
@@ -46,27 +49,27 @@ function cssFxProcessElement(e, rule) {
 		var property_array = css_array[r].split(":");
 		var rule_output = [];
 		var push_rule = true;
-		var property = trim1(property_array[0]);
+		var prop = trim1(property_array[0]);
 		var value = property_array[1];
-		switch (property) {
+		switch (prop) {
 		case "border-radius":
-			rule_output.push("-webkit-border-radius:" + value);
-			rule_output.push("-moz-border-radius:" + value);
+			rule_output.push(prefix[0]+prop+":" + value);
+			rule_output.push(prefix[1]+prop+":" + value);
 			break;
 		case "box-shadow":
-			rule_output.push("-webkit-box-shadow:" + value);
-			rule_output.push("-moz-box-shadow:" + value);
+			rule_output.push(prefix[0]+prop+":" + value);
+			rule_output.push(prefix[1]+prop+":" + value);
 			break;
 		case "text-overflow":
 			if (value === "ellipsis") {
-				rule_output.push("-o-text-overflow:" + value);
+				rule_output.push(prefix[2]+prop+":" + value);
 			}
 			break;
 		case "user-select":
-			rule_output.push("-webkit-user-select:"+value);
-			rule_output.push("-khtml-user-select:"+value);
-			rule_output.push("-moz-user-select:"+value);
-			rule_output.push("-o-user-select:"+value);
+			rule_output.push(prefix[0]+prop+":"+value);
+			rule_output.push(prefix[1]+prop+":"+value);
+			rule_output.push(prefix[2]+prop+":"+value);
+			rule_output.push(prefix[3]+prop+":"+value);
 		break;
 		default:
 			push_rule = false;
