@@ -28,5 +28,6 @@ Todo
   * specific box-shadow properties
   * transform
   * border-image
+  * <s>user-select</s>
   * flexbox
   * &lt;link&gt; support
