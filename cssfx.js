@@ -46,27 +46,27 @@ function cssFxProcessElement(e, rule) {
 		var property_array = css_array[r].split(":");
 		var rule_output = [];
 		var push_rule = true;
-		var property = trim1(property_array[0]);
+		var prop = trim1(property_array[0]);
 		var value = property_array[1];
-		switch (property) {
+		switch (prop) {
 		case "border-radius":
-			rule_output.push("-webkit-border-radius:" + value);
-			rule_output.push("-moz-border-radius:" + value);
+			rule_output.push("-webkit-"+prop+":" + value);
+			rule_output.push("-moz-"+prop+":" + value);
 			break;
 		case "box-shadow":
-			rule_output.push("-webkit-box-shadow:" + value);
-			rule_output.push("-moz-box-shadow:" + value);
+			rule_output.push("-webkit-"+prop+":" + value);
+			rule_output.push("-moz-"+prop+":" + value);
 			break;
 		case "text-overflow":
 			if (value === "ellipsis") {
-				rule_output.push("-o-text-overflow:" + value);
+				rule_output.push("-o-"+prop+":" + value);
 			}
 			break;
 		case "user-select":
-			rule_output.push("-webkit-user-select:"+value);
-			rule_output.push("-khtml-user-select:"+value);
-			rule_output.push("-moz-user-select:"+value);
-			rule_output.push("-o-user-select:"+value);
+			rule_output.push("-webkit-"+prop+":"+value);
+			rule_output.push("-khtml-"+prop+":"+value);
+			rule_output.push("-moz-"+prop+":"+value);
+			rule_output.push("-o-"+prop+":"+value);
 		break;
 		default:
 			push_rule = false;
