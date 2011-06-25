@@ -18,3 +18,15 @@ Browser Support
   * Opera 9.*
   * Safari 3.0+
   * Chrome 1-4
+
+Todo
+------
+
+  * opacity
+  * columns
+  * specific border-radius properties
+  * specific box-shadow properties
+  * transform
+  * border-image
+  * user-select
+  * flexbox
