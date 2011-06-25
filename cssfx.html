@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<style type="text/css">
+div {font-family:tahoma;font-size:12px;color:#fff;float:left;clear:left;padding:10px;text-align:center;margin-bottom:10px}
+/** worst-case CSS here
+** seriously, this stuff is bad **/
+#hello {
+	box-shadow:0px 		5px 5px #aaa;
+		text-shadow:	1px 1px
+		0px	#333444;background:	#535F76
+	}
+	/** World **/#world {border-radius:10px;
+		box-shadow:0px 5px 5px #bbb;
+		/** comments inside here,
+		just for kicks **/
+				text-shadow:1px 1px 0px #333;
+		background:#286CBD}
+		#hello {border-radius:10px}
+
+#bigmouth {background:#eee;color:#333;border-radius:5px;width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+p {clear:both;font-family:arial;font-weight:bold;color:#555}
+</style>
+</head>
+<body>
+<div id="hello">cssFx says: Hello World!</div>
+<div id="world">World says: What's up?</div>
+<div id="bigmouth">Big Mouth says: I can't stop talking about all kinds of stuff!</div>
+<script type="text/javascript" src="cssfx.js"></script>
+<script type="text/javascript" src="browser.js"></script>
+<script type="text/javascript">
+var browser = document.createElement('p');
+browser.innerHTML = BrowserDetect.browser+" "+BrowserDetect.version;
+document.getElementsByTagName("body")[0].appendChild(browser)
+</script>
+</body>
+</html>
