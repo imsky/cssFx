@@ -26,7 +26,6 @@ for (var x = 0, xlen = styleElements.length; x < xlen; x++) {
 	for (var y = 0, match_count = css.match(regex).length; y < match_count; y++) {
 		var has_supported_rules = false;
 		var match = regex.exec(css);
-		alert(match);
 		var selector = str_trim(strip_css_comments(match[1]));
 		var rule = str_trim(strip_css_comments(match[2])).replace(/\s{2,}|\t/gm, " ");
 		for (var z in supported_rules) {
