@@ -22,7 +22,7 @@ Browser Support
 Todo
 ------
 
-  * opacity
+  * <del>opacity</del>
   * columns
   * specific border-radius properties
   * specific box-shadow properties
@@ -31,3 +31,4 @@ Todo
   * <del>user-select</del>
   * flexbox
   * &lt;link&gt; support
+  * fix ie7,8 js errors
