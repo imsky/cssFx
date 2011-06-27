@@ -2,22 +2,25 @@
 <html>
 <head>
 <style type="text/css">
-	body {background:url(dot.png)}
+body {background:url(dot.png)}
 div {font-family:tahoma;font-size:12px;display:block;float:left;clear:left;padding:10px;text-align:center;margin-bottom:10px}
 #hello {background:#F9B613;border:solid 1px #a14722;color:#A14722;border-radius:8px;text-shadow:0px 1px 0px #fff;user-select:none;box-shadow:0px 2px 3px #999}
 #world {background:#0089CF;color:#fff;text-shadow:0px 1px 0px #000;opacity:0.6;border:solid 1px #eee}
 #bigmouth {background:#333;color:#eee;border-radius:10px;text-overflow:ellipsis;width:100px;white-space:nowrap;overflow:hidden}
-p {clear:both;font-size:1.2em;font-weight:bold;font-family:sans-serif}
+h2 {clear:both;font-size:1.2em;font-weight:bold;font-family:sans-serif}
+#newspaper {width:200px;height:100px;background:#fff;border-radius:2px;border:solid 1px #eee}
+#newspaper p {font-family:Georgia,serif;column-count:2;column-gap:5px}
 </style>
 </head>
 <body>
 <div id="hello">cssFx says: Hello World!</div>
 <div id="world">World says: What's up?</div>
 <div id="bigmouth">Big Mouth says: I can't stop talking about all kinds of stuff!</div>
+<div id="newspaper"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia rutrum ipsum, eget suscipit neque sodales non.</p></div>
 <script type="text/javascript" src="cssfx.js"></script>
 <script type="text/javascript" src="browser.js"></script>
 <script type="text/javascript">
-var browser = document.createElement('p');
+var browser = document.createElement('h2');
 browser.innerHTML = BrowserDetect.browser+" "+BrowserDetect.version;
 document.getElementsByTagName("body")[0].appendChild(browser)
 </script>

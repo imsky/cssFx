@@ -18,12 +18,13 @@ Browser Support
   * Opera 9.*
   * Safari 3.0+
   * Chrome 1-4
+  * Internet Explorer 6+
 
 Todo
 ------
 
   * <del>opacity</del>
-  * columns
+  * column-count, column-gap
   * specific border-radius properties
   * specific box-shadow properties
   * transform
@@ -31,4 +32,4 @@ Todo
   * <del>user-select</del>
   * flexbox
   * &lt;link&gt; support
-  * fix ie7,8 js errors
+  * <del>fix ie7,8 js errors</del>
