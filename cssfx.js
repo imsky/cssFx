@@ -13,7 +13,18 @@ function strip_css_comments(str) {
 	return str.replace(regex, "");
 }
 
-var supported_rules = ["border-radius", "box-shadow", "text-overflow", "user-select", "opacity", "column-count", "column-gap"];
+var supported_rules = ["border-radius",
+						"box-shadow",
+						"text-overflow",
+						"user-select",
+						"opacity",
+						"column-count",
+						"column-gap",
+						"column-rule",
+						"column-rule-color",
+						"column-rule-style",
+						"column-rule-width"
+						];
 var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-"];
 var regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var styleElements = document.getElementsByTagName("style");
@@ -90,6 +101,22 @@ function cssFxProcessElement(e, rule) {
 			rule_output.push(prefix[1] + prop + ":" + value);
 			break;
 		case "column-gap":
+			rule_output.push(prefix[0] + prop + ":" + value);
+			rule_output.push(prefix[1] + prop + ":" + value);
+			break;
+		case "column-rule":
+			rule_output.push(prefix[0] + prop + ":" + value);
+			rule_output.push(prefix[1] + prop + ":" + value);
+			break;
+		case "column-rule-style":
+			rule_output.push(prefix[0] + prop + ":" + value);
+			rule_output.push(prefix[1] + prop + ":" + value);
+			break;
+		case "column-rule-color":
+			rule_output.push(prefix[0] + prop + ":" + value);
+			rule_output.push(prefix[1] + prop + ":" + value);
+			break;
+		case "column-rule-width":
 			rule_output.push(prefix[0] + prop + ":" + value);
 			rule_output.push(prefix[1] + prop + ":" + value);
 			break;

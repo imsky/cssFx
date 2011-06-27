@@ -15,10 +15,10 @@ Browser Support
 ------
 
   * Firefox 2-3.*
-  * Opera 9.*
-  * Safari 3.0+
-  * Chrome 1-4
   * Internet Explorer 6+
+  * Chrome 1+
+  * Safari 3+
+  * Opera 9.*
 
 Todo
 ------
