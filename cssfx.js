@@ -73,10 +73,13 @@ function cssFxProcessElement(e, rule) {
 		var value = property_array[1];
 		switch (prop) {
 		case "border-radius":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
-			break;
 		case "box-shadow":
+		case "column-count":
+		case "column-gap":
+		case "column-rule":
+		case "column-rule-style":
+		case "column-rule-color":
+		case "column-rule-width":
 			rule_output.push(prefix[0] + prop + ":" + value);
 			rule_output.push(prefix[1] + prop + ":" + value);
 			break;
@@ -95,30 +98,6 @@ function cssFxProcessElement(e, rule) {
 			var ieValue = parseInt(parseFloat(value) * 100);
 			rule_output.push("filter: alpha(opacity=" + ieValue + ")");
 			rule_output.push(prefix[0] + prop + ":" + value);
-			break;
-		case "column-count":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
-			break;
-		case "column-gap":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
-			break;
-		case "column-rule":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
-			break;
-		case "column-rule-style":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
-			break;
-		case "column-rule-color":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
-			break;
-		case "column-rule-width":
-			rule_output.push(prefix[0] + prop + ":" + value);
-			rule_output.push(prefix[1] + prop + ":" + value);
 			break;
 		default:
 			push_rule = false;
