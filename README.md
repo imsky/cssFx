@@ -24,7 +24,7 @@ Todo
 ------
 
   * <del>opacity</del>
-  * column-count, column-gap
+  * <del>column-count, column-gap</del>
   * specific border-radius properties
   * specific box-shadow properties
   * transform
