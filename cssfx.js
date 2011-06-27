@@ -53,11 +53,11 @@ for (var x = 0, xlen = styleElements.length; x < xlen; x++) {
 
 		}
 	}
-	var newCSS = rules.join("\n");
+	var cssFxRules = rules.join("\n");
 	if (cssFxOutput.styleSheet) {
-		cssFxOutput.styleSheet.cssText = newCSS;
+		cssFxOutput.styleSheet.cssText = cssFxRules;
 	} else {
-		cssFxOutput.innerHTML = rules.join("\n");
+		cssFxOutput.innerHTML = cssFxRules;
 	}
 	document.getElementsByTagName("head")[0].appendChild(cssFxOutput);
 }
