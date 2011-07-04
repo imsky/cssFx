@@ -23,7 +23,11 @@ var supported_rules = ["border-radius",
 						"column-rule",
 						"column-rule-color",
 						"column-rule-style",
-						"column-rule-width"
+						"column-rule-width",
+						"border-top-left-radius",
+						"border-top-right-radius",
+						"border-bottom-left-radius",
+						"border-bottom-right-radius"
 						];
 var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-"];
 var regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
@@ -99,6 +103,14 @@ function cssFxProcessElement(e, rule) {
 			rule_output.push("filter: alpha(opacity=" + ieValue + ")");
 			rule_output.push(prefix[0] + prop + ":" + value);
 			break;
+		case "border-top-left-radius":
+		case "border-top-right-radius":
+		case "border-bottom-left-radius":
+		case "border-bottom-right-radius":
+			var valArray = prop.split("-");
+			rule_output.push(prefix[0]+"border-radius-"+valArray[1]+valArray[2]+":"+value);
+			rule_output.push(prefix[1] + prop + ":" + value);
+		break;
 		default:
 			push_rule = false;
 			break;
