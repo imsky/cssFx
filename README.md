@@ -3,7 +3,7 @@ cssFx
 
 cssFx is a light (2.5K) easy-to-use JavaScript polyfill that adds forward-compatibility for CSS3 property syntax to browser versions that use vendor-specific syntax. What that means is you can stop adding -moz-border-radius and -webkit-box-shadow to your CSS and just write border-radius and box-shadow, keeping your stylesheets clean and your download size low.
 
-![Comparison](http://imsky.github.com/cssFx/comparison.png)
+![Comparison](http://imsky.github.com/cssFx/showcase.png)
 
 Usage
 ------
@@ -25,7 +25,7 @@ Todo
 
   * <del>opacity</del>
   * <del>column-count, column-gap</del>
-  * specific border-radius properties
+  * <del>specific border-radius properties</del>
   * specific box-shadow properties
   * transform
   * border-image
