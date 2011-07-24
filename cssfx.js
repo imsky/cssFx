@@ -29,15 +29,36 @@ var supported_rules = ["border-radius",
 						"border-bottom-left-radius",
 						"border-bottom-right-radius"
 						];
+
 var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-"];
 var regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var styleElements = document.getElementsByTagName("style");
+var linkElements = document.getElementsByTagName("link");
+var cssFiles = [];
 
-for (var x = 0, xlen = styleElements.length; x < xlen; x++) {
+for(var x in linkElements){
+if(typeof(linkElements[x]) === "object"){
+	if(linkElements[x].styleSheet){
+		//Internet Explorer sees this, Firefox doesn't
+		cssFiles.push(linkElements[x].styleSheet.cssText);
+	}
+}
+}
+
+for(var x in styleElements){
+	if(typeof(styleElements[x]) === "object"){
+	cssFiles.push(styleElements[x].innerHTML);
+	}
+}
+
+
+for(var x in cssFiles){
 	var cssFxOutput = document.createElement('style');
 	cssFxOutput.setAttribute('type', 'text/css');
-	var css = styleElements[x].innerHTML;
-	var rules = [];
+	var css = cssFiles[x];
+	if(typeof(css)==="undefined"){
+		console.log(cssFiles);
+	}
 	var rules = [];
 	for (var y = 0, match_count = css.match(regex).length; y < match_count; y++) {
 		var has_supported_rules = false;
