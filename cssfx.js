@@ -13,22 +13,7 @@ function strip_css_comments(str) {
 	return str.replace(regex, "");
 }
 
-var supported_rules = ["border-radius",
-						"box-shadow",
-						"text-overflow",
-						"user-select",
-						"opacity",
-						"column-count",
-						"column-gap",
-						"column-rule",
-						"column-rule-color",
-						"column-rule-style",
-						"column-rule-width",
-						"border-top-left-radius",
-						"border-top-right-radius",
-						"border-bottom-left-radius",
-						"border-bottom-right-radius"
-						];
+var supported_rules = ["border-radius","box-shadow",	"text-overflow",	"opacity","column-count","column-gap","column-rule","column-rule-color","column-rule-style","column-rule-width","border-top-left-radius","border-top-right-radius","border-bottom-left-radius","border-bottom-right-radius"];
 
 var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-"];
 var regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
@@ -56,9 +41,6 @@ for(var x in cssFiles){
 	var cssFxOutput = document.createElement('style');
 	cssFxOutput.setAttribute('type', 'text/css');
 	var css = cssFiles[x];
-	if(typeof(css)==="undefined"){
-		console.log(cssFiles);
-	}
 	var rules = [];
 	for (var y = 0, match_count = css.match(regex).length; y < match_count; y++) {
 		var has_supported_rules = false;
