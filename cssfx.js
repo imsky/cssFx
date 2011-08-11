@@ -29,9 +29,9 @@ function strip_css_comments(str) {
 	return str.replace(regex, "");
 }
 
-var supported_rules = ["border-radius","box-shadow",	"text-overflow",	"opacity","column-count","column-gap","column-rule","column-rule-color","column-rule-style","column-rule-width","border-top-left-radius","border-top-right-radius","border-bottom-left-radius","border-bottom-right-radius"];
+var supported_rules = ["border-radius","box-shadow",	"text-overflow",	"opacity","column-count","column-gap","column-rule","column-rule-color","column-rule-style","column-rule-width","border-top-left-radius","border-top-right-radius","border-bottom-left-radius","border-bottom-right-radius","transform"];
 
-var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-"];
+var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-", "-ms-"];
 var cssRegex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var styleElements = document.getElementsByTagName("style");
 var linkElements = document.getElementsByTagName("link");
@@ -135,6 +135,12 @@ function cssFxProcessElement(e, rule) {
 			var valArray = prop.split("-");
 			rule_output.push(prefix[0]+"border-radius-"+valArray[1]+valArray[2]+":"+value);
 			rule_output.push(prefix[1] + prop + ":" + value);
+		break;
+		case "transform":
+		rule_output.push(prefix[0] + prop + ":" + value);
+		rule_output.push(prefix[1] + prop + ":" + value);
+		rule_output.push(prefix[2] + prop + ":" + value);
+		rule_output.push(prefix[4] + prop + ":" + value);
 		break;
 		default:
 			push_rule = false;
