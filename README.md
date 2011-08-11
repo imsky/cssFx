@@ -31,5 +31,5 @@ Todo
   * border-image
   * <del>user-select</del>
   * flexbox
-  * &lt;link&gt; support (partial, only IE support for now)
+  * <del>&lt;link&gt; support</del>
   * <del>fix ie7,8 js errors</del>

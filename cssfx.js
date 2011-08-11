@@ -2,6 +2,22 @@
 //ded's domready
 !function(a,b){function m(a){l=1;while(a=c.shift())a()}var c=[],d,e,f=!1,g=b.documentElement,h=g.doScroll,i="DOMContentLoaded",j="addEventListener",k="onreadystatechange",l=/^loade|c/.test(b.readyState);b[j]&&b[j](i,e=function(){b.removeEventListener(i,e,f),m()},f),h&&b.attachEvent(k,d=function(){/^c/.test(b.readyState)&&(b.detachEvent(k,d),m())}),a.domReady=h?function(a){self!=top?l?a():c.push(a):function(){try{g.doScroll("left")}catch(b){return setTimeout(function(){domReady(a)},50)}a()}()}:function(a){l?a():c.push(a)}}(this,document)
 
+//Hunlock's SJAX
+function getFile(url) {
+  if (window.XMLHttpRequest) {
+    AJAX=new XMLHttpRequest();
+  } else {
+    AJAX=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  if (AJAX) {
+     AJAX.open("GET", url, false);
+     AJAX.send(null);
+     return AJAX.responseText;
+  } else {
+     return false;
+  }
+}
+
 domReady(function () {
 function str_trim(str) {
 	//Steven Levithan's trim with added replacement of newlines
@@ -16,35 +32,41 @@ function strip_css_comments(str) {
 var supported_rules = ["border-radius","box-shadow",	"text-overflow",	"opacity","column-count","column-gap","column-rule","column-rule-color","column-rule-style","column-rule-width","border-top-left-radius","border-top-right-radius","border-bottom-left-radius","border-bottom-right-radius"];
 
 var prefix = ["-moz-", "-webkit-", "-o-", "-khtml-"];
-var regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
+var cssRegex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var styleElements = document.getElementsByTagName("style");
 var linkElements = document.getElementsByTagName("link");
 var cssFiles = [];
 
+//Processing external stylesheets
 for(var x in linkElements){
 if(typeof(linkElements[x]) === "object"){
 	if(linkElements[x].styleSheet){
 		//Internet Explorer sees this, Firefox doesn't
 		cssFiles.push(linkElements[x].styleSheet.cssText);
 	}
+	else{
+		//We're doing it live
+		cssFiles.push(getFile(linkElements[x].href));
+	}
 }
 }
 
+//Processing in-page stylesheets
 for(var x in styleElements){
 	if(typeof(styleElements[x]) === "object"){
 	cssFiles.push(styleElements[x].innerHTML);
 	}
 }
 
-
 for(var x in cssFiles){
 	var cssFxOutput = document.createElement('style');
 	cssFxOutput.setAttribute('type', 'text/css');
+	cssFxOutput.className += "cssfx";
 	var css = cssFiles[x];
 	var rules = [];
-	for (var y = 0, match_count = css.match(regex).length; y < match_count; y++) {
+	for (var y = 0, match_count = css.match(cssRegex).length; y < match_count; y++) {
 		var has_supported_rules = false;
-		var match = regex.exec(css);
+		var match = cssRegex.exec(css);
 		if (match !== null) {
 			var selector = str_trim(strip_css_comments(match[1]));
 			var rule = str_trim(strip_css_comments(match[2])).replace(/\s{2,}|\t/gm, " ");
