@@ -87,7 +87,7 @@ function cssFxProcessElement(e, rule) {
 			rule_output.push(prefix[1] + def_rule);
 			break;
 		case "text-overflow":
-			if (value === "ellipsis") {
+			if (rule[1] === "ellipsis") {
 				rule_output.push(prefix[2] + def_rule);
 			}
 			break;
