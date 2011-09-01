@@ -19,7 +19,7 @@ var link_els = document.getElementsByTagName("link");
 var css_files = [];
 //Processing external stylesheets
 for (var x in link_els) {
-	if (typeof (link_els[x]) === "object") {
+	if (typeof (link_els[x]) === "object" && link_els[x].className === "cssfx") {
 		if (link_els[x].styleSheet) {
 			//Internet Explorer sees this, Firefox doesn't
 			css_files.push(link_els[x].styleSheet.cssText);
