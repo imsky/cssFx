@@ -23,13 +23,14 @@ Browser Support
 Todo
 ------
 
-  * <del>opacity</del>
-  * <del>column-count, column-gap</del>
-  * <del>specific border-radius properties</del>
   * specific box-shadow properties
   * transform
   * border-image
-  * <del>user-select</del>
   * flexbox
+  * don't push empty style tags to DOM
+  * <del>opacity</del>
+  * <del>column-count, column-gap</del>
+  * <del>specific border-radius properties</del>
+  * <del>user-select</del>
   * <del>&lt;link&gt; support</del>
   * <del>fix ie7,8 js errors</del>
