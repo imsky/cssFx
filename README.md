@@ -23,6 +23,9 @@ Browser Support
 Todo
 ------
 
+  * background-clip
+  * background-size
+  * media query support
   * specific box-shadow properties
   * transform
   * border-image
