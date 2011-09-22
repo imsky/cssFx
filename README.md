@@ -35,7 +35,7 @@ Todo
   * specific box-shadow properties
   * transform
   * border-image
-  * flexbox
+  * <del>flexbox</del>
   * don't push empty style tags to DOM
   * <del>opacity</del>
   * <del>column-count, column-gap</del>
