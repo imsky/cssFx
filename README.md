@@ -17,7 +17,7 @@ Usage
  <link rel="stylesheet" href="cssfx.css" class="cssfx">
  ```
 
-Browser Support
+Browsers Supported
 ------
 
   * Firefox 2-3.*
@@ -25,6 +25,18 @@ Browser Support
   * Chrome 1+
   * Safari 3+
   * Opera 9.*
+
+Properties Supported
+------
+```
+border-radius, box-shadow, text-overflow, opacity,
+border-top-left-radius, border-top-right-radius,
+border-bottom-left-radius, border-bottom-right-radius,
+transform, column-count, column-gap, column-rule,
+column-rule-color, column-rule-style, column-rule-width,
+box-flex, box-orient,box-ordinal-group, box-flex-group,
+box-align,box-direction,box-pack,box-lines
+```
 
 Todo
 ------
