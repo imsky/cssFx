@@ -142,6 +142,10 @@
 						element_new_rules.push("display:" + prefix[0] + value);
 						element_new_rules.push("display:" + prefix[1] + value);
 					}
+					else if(value === "inline-block"){
+						element_new_rules.push("display:" + prefix[0] + "inline-stack");
+						element_new_rules.push("zoom:1;*display:inline");
+					}
 					break;
 				}
 				if (element_new_rules.length > 0) {
