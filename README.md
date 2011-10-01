@@ -1,7 +1,7 @@
 cssFx
 ------
 
-cssFx is a light (3.1K) easy-to-use JavaScript utility that automatically adds vendor versions of CSS3 rules like border-radius and box-shadow.
+cssFx is a light (3.6K) easy-to-use JavaScript utility that automatically adds vendor versions of CSS3 rules like border-radius and box-shadow.
 
 Usage
 ------
