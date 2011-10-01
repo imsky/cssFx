@@ -21,7 +21,7 @@ function strip_css_comments(str) {
 }
 
 domReady(function () {
-var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image"];
+var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background"];
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var style_els = document.getElementsByTagName("style");
@@ -71,8 +71,10 @@ for (var x in css_files) {
 	}
 	var css_fx_rules = rules.join("\n");
 	if (css_fx_output.styleSheet) {
+		//Internet Explorer
 		css_fx_output.styleSheet.cssText = css_fx_rules;
 	} else {
+		//Everyone else
 		css_fx_output.innerHTML = css_fx_rules;
 	}
 	document.getElementsByTagName("head")[0].appendChild(css_fx_output);
@@ -96,6 +98,13 @@ function cssFxProcessElement(e, rule) {
 		case "column-rule-style":
 		case "column-rule-color":
 		case "column-rule-width":
+		case "background-size":
+		//-moz and -webkit
+			new_rules.push(prefix[0] + clean_rule);
+			new_rules.push(prefix[1] + clean_rule);
+			break;
+		case "transform":
+		case "transition":
 		case "box-flex":
 		case "box-orient":
 		case "box-align":
@@ -104,23 +113,12 @@ function cssFxProcessElement(e, rule) {
 		case "box-pack":
 		case "box-direction":
 		case "box-lines":
-		case "background-size":
-		//-moz and -webkit
-			new_rules.push(prefix[0] + clean_rule);
-			new_rules.push(prefix[1] + clean_rule);
-			break;
-		case "transform":
-		case "transition":
+		case "user-select":
 		//-moz, -webkit, -o, -ms
 			new_rules.push(prefix[0] + clean_rule);
 			new_rules.push(prefix[1] + clean_rule);
 			new_rules.push(prefix[2] + clean_rule);
 			new_rules.push(prefix[3] + clean_rule);
-			break;
-		case "user-select":
-			new_rules.push(prefix[0] + clean_rule);
-			new_rules.push(prefix[1] + clean_rule);
-			new_rules.push(prefix[2] + clean_rule);
 			break;
 		case "border-top-left-radius":
 		case "border-top-right-radius":
@@ -134,6 +132,7 @@ function cssFxProcessElement(e, rule) {
 			if (rule[1] === "box") {
 				new_rules.push("display:" + prefix[0] + rule[1]);
 				new_rules.push("display:" + prefix[1] + rule[1]);
+				new_rules.push("display:" + prefix[3] + rule[1]);
 			} else if (rule[1] === "inline-block") {
 				new_rules.push("display:" + prefix[0] + "inline-stack");
 				new_rules.push("zoom:1;*display:inline");
@@ -155,9 +154,13 @@ function cssFxProcessElement(e, rule) {
 			}
 		break;
 		case "background-image":
+		case "background":
 		var lg = "linear-gradient";
 			if(rule[1].indexOf(lg) === 0){
-				var attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
+				var attributes = rule[1].substr(lg.length);
+				if(rule[0] === "background-image"){
+				attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
+				}
 				var prop = lg + attributes;
 				new_rules.push(rule[0] + ":" + prefix[0] + prop);
 				new_rules.push(rule[0] + ":" + prefix[1] + prop);
