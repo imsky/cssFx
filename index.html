@@ -1,82 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+		cssFx is made by Ivan Malopinsky (http://imsky.co)
+		Thanks for reading the source, give my site a visit :)
+-->
 <html>
 <head>
-  <meta charset='utf-8'>
+	<title>cssFx - CSS3 property polyfill - It's So Futuristic, Baby!</title>
+<style type="text/css">
+html {
+	background-color:#003e66
+}
+body {
+	margin:0;
+	padding:0;
+	background:linear-gradient(top,#09121e 0%,#003e66 100%) repeat-x;
+	padding:30px 0
+}
+body {
+	font-family:Arial;
+	color:#fff
+}
+#cssfx {
+	margin:0 auto;
+	width:700px;
+	padding:20px
+}
+#cssfx {
+	border-top-left-radius:20px;
+	border-bottom-right-radius:20px;
+	box-shadow:0px 0px 15px #407fab;
+	background-clip:padding-box
+}
+h1 {
+	font-size:3em;
+	margin:0;
+	text-align:center;
+	text-shadow:0px 0px 20px #407fab
+}
+h2 {
+	text-transform:uppercase;
+	margin-top:10px;
+	text-shadow:0px 0px 5px #407fab;
+	text-align:center;
+	transform:rotate(-2deg)
+}
+h2:hover {
+	transform:rotate(2deg)
+}
+h2,h2:hover {
+	transition:all 0.5s ease-out
+}
+h3 {
+	text-shadow:0px 1px 0px #09121e
+}
+p {
+	line-height:1.4em;
+	margin-bottom:2em
+}
+#desc {
+	padding-top:20px
+}
+#example {
+	display:box;
+	box-pack:center;
+	box-align:center;
+	width:100%
+}
+#example div {
+	white-space:normal;
+	display:block
+}
+#example #arrow {
+	width:100px;
+	text-align:center;
+	font-size:3em;
+	text-shadow:0px 0px 5px #407fab
+}
+#download-well {
+	display:box;
+	box-pack:center;
+	width:100%;
+	padding:30px 0;
+	border:solid 1px #03416a;
+	border-width:1px 0;
+	margin-top:30px
+}
+#download {
+	display:block;
+	line-height:53px;
+	padding-left:54px;
+	background:url(download.png) no-repeat;
+	color:#c8e8ff;
+	font-weight:bold;
+	text-shadow:0px 1px 0px #09121e
+}
+#download:hover {
+	color:#fff;
+	text-shadow:0px 0px 10px #407fab
+}
 
-  <title>imsky/cssFx @ GitHub</title>
+#download, #download:hover {transition:all 0.2s ease-out}
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #ffffff;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #160e0f; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #160e0f; }
-    h3 { text-align: center; color: #160e0f; }
-    a { color: #160e0f; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
+small {
+	text-align:center;
+	margin-top:10px;
+	opacity:0.8;
+	display:block
+}
+small a {
+	color: #fff
+}
+</style>
 </head>
-
 <body>
-  <a href="http://github.com/imsky/cssFx"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/imsky/cssFx/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/imsky/cssFx/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/imsky/cssFx">cssFx</a>
-      <span class="small">by <a href="http://github.com/imsky">imsky</a></span></h1>
-
-    <div class="description">
-     cssFx is a very easy-to-use JavaScript polyfill that adds forward-compatibility for CSS3 property syntax to browser versions that used vendor-specific syntax. What that means is you can stop adding -moz-border-radius and -webkit-box-shadow to your CSS and just write border-radius and box-shadow, keeping your stylesheets clean and your download size low.
-
-     <p>Here's a demonstration:</p>
-     <p style="text-align:center">
-     <img src="showcase.png">
-     </p>
-    </div>
-
-<h2>License</h2>
-<p>BSD</p>
-<h2>Authors</h2>
-<p><a href="http://imsky.co">Ivan Malopinsky</a></p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/imsky/cssFx/zipball/master">zip</a> or
-      <a href="http://github.com/imsky/cssFx/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/imsky/cssFx</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/imsky/cssFx">imsky/cssFx</a>
-    </div>
-
-  </div>
-
-
+<a href="http://github.com/imsky/cssFx"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/4c7dc970b89fd04b81c8e221ba88ff99a06c6b61/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a>
+<div id="cssfx">
+	<h1>cssFx</h1>
+	<h2>It's so futuristic, baby!</h2>
+	<p id="desc">
+		 cssFx is a standalone polyfill that adds all the vendor-specific CSS3 properties you normally have to add for older browsers. This saves you tons of time, maintenance, and bandwidth! Check it out:
+	</p>
+	<div id="example">
+		<div>
+			<h3>CSS rules</h3>
+			<code>#cssfx {<br>
+			 border-top-left-radius:20px;<br>
+			 border-bottom-right-radius:20px;<br>
+			 box-shadow:0px 0px 15px #407fab;<br>
+			 background-clip:padding-box<br>
+			 }<br>
+			 #example {<br>
+			 display:box;<br>
+			 box-pack:center<br>
+			 }</code>
+		</div>
+		<div id="arrow">
+			 &rarr;
+		</div>
+		<div>
+			<h3>cssFx generated rules</h3>
+			<code>#cssfx {<br>
+			 -moz-border-radius-topleft:20px;<br>
+			 -webkit-border-top-left-radius:20px;<br>
+			 -moz-border-radius-bottomright:20px;<br>
+			 -webkit-border-bottom-right-radius:20px;<br>
+			 -moz-box-shadow:0px 0px 15px #407fab;<br>
+			 -webkit-box-shadow:0px 0px 15px #407fab;<br>
+			 -webkit-background-clip:padding-box;<br>
+			 -moz-background-clip:padding<br>
+			 }<br>
+			 #example {<br>
+			 display:-moz-box;<br>
+			 display:-webkit-box;<br>
+			 display:-ms-box;<br>
+			 -moz-box-pack:center;<br>
+			 -webkit-box-pack:center<br>
+			 }</code>
+		</div>
+	</div>
+	<h3>What features are supported?</h3>
+	<p>
+		Box shadows, border radius, multiple columns, transforms, transitions, flexible box, gradients, and a ton of other useful things (like opacity, ellipsis, and inline-block).
+	</p>
+	<h3>Which browsers are supported?</h3>
+	<p>
+		Firefox 3+, Chrome 1+, Internet Explorer 6+, Opera 9+.
+	</p>
+	<h3>How do I use it?</h3>
+	<p>
+		Include the JS file, and give external stylesheets the "cssfx" class:
+	</p>
+	<code>&lt;script src="cssfx.min.js"&gt;&lt;/script&gt;</code><br>
+	<code>&lt;link rel="effects.css" class="cssfx"&gt;</code>
+	<div id="download-well">
+		<a href="http://github.com/imsky/cssFx/zipball/master" id="download">Download cssFx (3.6 KB)</a>
+	</div>
+	<small>&copy; 2011 <a href="http://imsky.co">Ivan Malopinsky</a></small>
+</div>
+</div>
+<script type="text/javascript" src="https://raw.github.com/imsky/cssFx/master/cssfx.min.js" id="fx"></script>
 </body>
 </html>
