@@ -21,7 +21,7 @@ function strip_css_comments(str) {
 }
 
 domReady(function () {
-var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size"];
+var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image"];
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var style_els = document.getElementsByTagName("style");
@@ -152,6 +152,17 @@ function cssFxProcessElement(e, rule) {
 			if(rule[1] === "padding-box"){
 				new_rules.push(prefix[1] + clean_rule);
 				new_rules.push(prefix[0] + rule[0] + ":padding");
+			}
+		break;
+		case "background-image":
+		var lg = "linear-gradient";
+			if(rule[1].indexOf(lg) === 0){
+				var attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
+				var prop = lg + attributes;
+				new_rules.push(rule[0] + ":" + prefix[0] + prop);
+				new_rules.push(rule[0] + ":" + prefix[1] + prop);
+				new_rules.push(rule[0] + ":" + prefix[2] + prop);
+				new_rules.push(rule[0] + ":" + prefix[3] + prop);
 			}
 		break;
 		}
