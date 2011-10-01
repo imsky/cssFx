@@ -2,23 +2,11 @@
 //ded's domready
 !function(a,b){function m(a){l=1;while(a=c.shift())a()}var c=[],d,e,f=!1,g=b.documentElement,h=g.doScroll,i="DOMContentLoaded",j="addEventListener",k="onreadystatechange",l=/^loade|c/.test(b.readyState);b[j]&&b[j](i,e=function(){b.removeEventListener(i,e,f),m()},f),h&&b.attachEvent(k,d=function(){/^c/.test(b.readyState)&&(b.detachEvent(k,d),m())}),a.domReady=h?function(a){self!=top?l?a():c.push(a):function(){try{g.doScroll("left")}catch(b){return setTimeout(function(){domReady(a)},50)}a()}()}:function(a){l?a():c.push(a)}}(this,document)
 
-function getFile(a) {
-	if (AJAX = (window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP"))) {
-		AJAX.open("GET", a, false);
-		AJAX.send(null);
-		return AJAX.responseText
-	} else {
-		return false
-	}
-};
+function sjax(a){if(AJAX=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP")){AJAX.open("GET",a,false);AJAX.send(null);return AJAX.responseText}else return false}
 
-function str_trim(str) {
-	return str.replace(/\n/gm, '').replace(/^\s\s*/, '').replace(/\s\s*$/, '')
-}
+function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\s\s*$/,"")}
 
-function strip_css_comments(str) {
-	return str.replace(/\/\*([\s\S]*?)\*\//gim, "")
-}
+function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
 domReady(function () {
 var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background"];
@@ -35,7 +23,7 @@ for (var x in link_els) {
 			css_files.push(link_els[x].styleSheet.cssText);
 		} else {
 			//We're doing it live
-			css_files.push(getFile(link_els[x].href));
+			css_files.push(sjax(link_els[x].href));
 		}
 	}
 }

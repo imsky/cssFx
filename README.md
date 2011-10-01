@@ -33,6 +33,8 @@ border-radius, box-shadow, text-overflow, opacity, border-top-left-radius, borde
 Todo
 ------
 
+  * rgba
+  * @import support
   * media query support
   * specific box-shadow properties
   * border-image
