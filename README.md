@@ -28,22 +28,12 @@ Browsers Supported
 
 Properties Supported
 ------
-border-radius, box-shadow, text-overflow, opacity, border-top-left-radius, border-top-right-radius, border-bottom-left-radius, border-bottom-right-radius, transform, column-count, column-gap, column-rule, column-rule-color, column-rule-style, column-rule-width, box-flex, box-orient,box-ordinal-group, box-flex-group, box-align, box-direction, box-pack,box-lines, display:inline-block
+border-radius, box-shadow, text-overflow, opacity, border-top-left-radius, border-top-right-radius, border-bottom-left-radius, border-bottom-right-radius, transform, column-count, column-gap, column-rule, column-rule-color, column-rule-style, column-rule-width, box-flex, box-orient,box-ordinal-group, box-flex-group, box-align, box-direction, box-pack,box-lines, background-size, transition, background-clip, display:inline-block
 
 Todo
 ------
 
-  * background-clip
-  * background-size
   * media query support
   * specific box-shadow properties
-  * transform
   * border-image
-  * <del>flexbox</del>
   * don't push empty style tags to DOM
-  * <del>opacity</del>
-  * <del>column-count, column-gap</del>
-  * <del>specific border-radius properties</del>
-  * <del>user-select</del>
-  * <del>&lt;link&gt; support</del>
-  * <del>fix ie7,8 js errors</del>
