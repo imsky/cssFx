@@ -58,17 +58,15 @@ for (var x in css_files) {
 		}
 	}
 	var css_fx_rules = rules.join("\n");
+
 	if (css_fx_output.styleSheet) {
 		//Internet Explorer
 		css_fx_output.styleSheet.cssText = css_fx_rules;
 	} else {
 		//Everyone else
-		try{css_fx_output.innerHTML = css_fx_rules;
-		}
-		catch(e){
-			css_fx_output.nodeValue = css_fx_rules;
-		}
+		css_fx_output.textContent = css_fx_rules;
 	}
+
 	document.getElementsByTagName("head")[0].appendChild(css_fx_output);
 }
 
