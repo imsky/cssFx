@@ -72,6 +72,7 @@ function cssFxProcessElement(e, rule) {
 	var css_array = rule.split(";"),
 		rules = [];
 	for (var r in css_array) {
+		if(css_array[r].indexOf(":")!==-1){
 		var rule = css_array[r].split(":");
 		rule[0] = str_trim(rule[0]);
 		rule[1] = str_trim(rule[1]);
@@ -87,12 +88,6 @@ function cssFxProcessElement(e, rule) {
 		case "column-rule-color":
 		case "column-rule-width":
 		case "background-size":
-		//-moz and -webkit
-			new_rules.push(prefix[0] + clean_rule);
-			new_rules.push(prefix[1] + clean_rule);
-			break;
-		case "transform":
-		case "transition":
 		case "box-flex":
 		case "box-orient":
 		case "box-align":
@@ -101,6 +96,12 @@ function cssFxProcessElement(e, rule) {
 		case "box-pack":
 		case "box-direction":
 		case "box-lines":
+		//-moz and -webkit
+			new_rules.push(prefix[0] + clean_rule);
+			new_rules.push(prefix[1] + clean_rule);
+			break;
+		case "transform":
+		case "transition":
 		case "user-select":
 		//-moz, -webkit, -o, -ms
 			new_rules.push(prefix[0] + clean_rule);
@@ -159,6 +160,7 @@ function cssFxProcessElement(e, rule) {
 		}
 		if (new_rules.length > 0) {
 			rules.push(new_rules.join(";"));
+		}
 		}
 	}
 	return (rules.length > 0 ? e + "{" + rules.join(";") + "}" : false);
