@@ -1,13 +1,7 @@
 #cssfx {
 	margin:0 auto;
-	width:700px;
+	width:720px;
 	padding:20px
-}
-#cssfx {
-	border-top-left-radius:20px;
-	border-bottom-right-radius:20px;
-	box-shadow:0px 0px 15px #407fab;
-	background-clip:padding-box
 }
 h1 {
 	font-size:3em;
@@ -29,21 +23,34 @@ h2,h2:hover {
 	transition:all 0.5s ease-out
 }
 h3 {
-	text-shadow:0px 1px 0px #09121e
+	text-shadow:0px 1px 0px #09121e;
+	margin-top:2em;
+	margin-bottom:0;
+}
+#example h3 {
+	margin-bottom:0.5em
 }
 p {
 	line-height:1.4em;
-	margin-bottom:2em
+	margin-bottom:1em;
+	margin-top:0.5em
+}
+em {
+	text-decoration:underline
 }
 #desc {
 	padding-top:20px;
 	font-size:1.2em
 }
 #example {
+	box-shadow:0px 0px 15px #407fab;
+	border-radius:10px;
 	display:box;
 	box-pack:center;
 	box-align:center;
-	width:100%
+	width:100%;
+	padding:20px 0;
+	margin:30px 0
 }
 #example div {
 	white-space:normal;
@@ -60,9 +67,8 @@ p {
 	box-pack:center;
 	width:100%;
 	padding:30px 0;
-	border:solid 1px #03416a;
-	border-width:1px 0;
-	margin-top:30px
+	border-top:solid 1px #042841;
+	margin:20px 0
 }
 #download {
 	display:block;
@@ -77,9 +83,9 @@ p {
 	color:#fff;
 	text-shadow:0px 0px 10px #407fab
 }
-
-#download, #download:hover {transition:all 0.2s ease-out}
-
+#download,#download:hover {
+	transition:all 0.2s ease-out
+}
 small {
 	text-align:center;
 	margin-top:10px;

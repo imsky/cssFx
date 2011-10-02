@@ -35,40 +35,34 @@ body {
 	<div id="example">
 		<div>
 			<h3>CSS rules</h3>
-			<code>#cssfx {<br>
-			 border-top-left-radius:20px;<br>
-			 border-bottom-right-radius:20px;<br>
-			 box-shadow:0px 0px 15px #407fab;<br>
-			 background-clip:padding-box<br>
-			 }<br>
-			 #example {<br>
-			 display:box;<br>
-			 box-pack:center<br>
-			 }</code>
+			<code>#example {<br>
+					box-shadow:0px 0px 15px #407fab;<br>
+					border-radius:10px;<br>
+					display:box;<br>
+					box-pack:center;<br>
+					box-align:center<br>
+					}
+	</code>
 		</div>
 		<div id="arrow">
 			 &rarr;
 		</div>
 		<div>
 			<h3>cssFx generated rules</h3>
-			<code>#cssfx {<br>
-			 -moz-border-radius-topleft:20px;<br>
-			 -webkit-border-top-left-radius:20px;<br>
-			 -moz-border-radius-bottomright:20px;<br>
-			 -webkit-border-bottom-right-radius:20px;<br>
-			 -moz-box-shadow:0px 0px 15px #407fab;<br>
-			 -webkit-box-shadow:0px 0px 15px #407fab;<br>
-			 -webkit-background-clip:padding-box;<br>
-			 -moz-background-clip:padding<br>
-			 }<br>
-			 #example {<br>
-			 display:-moz-box;<br>
-			 display:-webkit-box;<br>
-			 display:-ms-box;<br>
-			 -moz-box-pack:center;<br>
-			 -webkit-box-pack:center;<br>
-			 -ms-box-pack:center<br>
-			 }</code>
+			<code>#example {<br>
+			-moz-box-shadow:0px 0px 15px #407fab;<br>
+			-webkit-box-shadow:0px 0px 15px #407fab;<br>
+-moz-border-radius:10px;<br>
+-webkit-border-radius:10px;<br>
+display:-moz-box;<br>
+display:-webkit-box;<br>
+display:-ms-box;<br>
+-moz-box-pack:center;<br>
+-webkit-box-pack:center;<br>
+-ms-box-pack:center;<br>
+-moz-box-align:center;<br>
+-webkit-box-align:center;<br>
+-ms-box-align:center<br>}</code>
 		</div>
 	</div>
 	<h3>What features are supported?</h3>
@@ -92,5 +86,17 @@ body {
 </div>
 </div>
 <script type="text/javascript" src="cssfx.min.js"></script>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://analytics.imsky.co/" : "http://analytics.imsky.co/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://analytics.imsky.co/piwik.php?idsite=4" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
 </body>
 </html>
