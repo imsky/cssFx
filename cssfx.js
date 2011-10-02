@@ -63,7 +63,11 @@ for (var x in css_files) {
 		css_fx_output.styleSheet.cssText = css_fx_rules;
 	} else {
 		//Everyone else
-		css_fx_output.innerHTML = css_fx_rules;
+		try{css_fx_output.innerHTML = css_fx_rules;
+		}
+		catch(e){
+			css_fx_output.nodeValue = css_fx_rules;
+		}
 	}
 	document.getElementsByTagName("head")[0].appendChild(css_fx_output);
 }
@@ -152,6 +156,7 @@ function cssFxProcessElement(e, rule) {
 				}
 				var prop = lg + attributes;
 				new_rules.push(rule[0] + ":" + prefix[0] + prop);
+				new_rules.push(rule[0] + ":" + prefix[1] + "gradient" + prop);
 				new_rules.push(rule[0] + ":" + prefix[1] + prop);
 				new_rules.push(rule[0] + ":" + prefix[2] + prop);
 				new_rules.push(rule[0] + ":" + prefix[3] + prop);
