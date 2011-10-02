@@ -1,14 +1,14 @@
 cssFx
 ------
 
-cssFx is a light (3.6K) easy-to-use JavaScript utility that automatically adds vendor versions of CSS3 rules like border-radius and box-shadow.
+cssFx is a standalone polyfill that inserts the vendor-specific CSS3 properties necessary for old and new browsers. This saves you tons of time, maintenance, and bandwidth!
 
 Usage
 ------
  * Include a script tag in your source:
 
 ``` html
-<script type="text/javascript" src="cssfx.js"></script>
+<script src="cssfx.min.js"></script>
 ```
 
  * Give any external stylesheets you want processed the "cssfx" class:
@@ -20,15 +20,15 @@ Usage
 Browsers Supported
 ------
 
-  * Firefox 2-3.*
-  * Internet Explorer 6+
+  * Firefox 3+
   * Chrome 1+
+  * Internet Explorer 6+
   * Safari 3+
-  * Opera 9.*
+  * Opera 9+
 
 Properties Supported
 ------
-border-radius, box-shadow, text-overflow, opacity, border-top-left-radius, border-top-right-radius, border-bottom-left-radius, border-bottom-right-radius, transform, column-count, column-gap, column-rule, column-rule-color, column-rule-style, column-rule-width, box-flex, box-orient,box-ordinal-group, box-flex-group, box-align, box-direction, box-pack,box-lines, background-size, transition, background-clip, linear-gradient, display:inline-block
+Border radius, box shadow, flex box, gradients, multiple columns, transforms, transitions, opacity, inline-block, ellipsis, and more.
 
 Todo
 ------
