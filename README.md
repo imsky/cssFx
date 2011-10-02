@@ -33,6 +33,19 @@ Border radius, box shadow, flex box, gradients, multiple columns, transforms, tr
 Todo
 ------
 
+  * text stroke
+  * user-drag, user-modify
+  * specific transform properties
+  * specific transition properties
+  * perspective
+  * mask
+  * nbsp-mode
+  * line-break
+  * hyphens, hyphenate-character
+  * backface-visibility
+  * background-composite, background-origin, background-position
+  * grid
+  * animation
   * rgba
   * @import support
   * media query support
