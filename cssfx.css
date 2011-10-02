@@ -1,0 +1,91 @@
+#cssfx {
+	margin:0 auto;
+	width:700px;
+	padding:20px
+}
+#cssfx {
+	border-top-left-radius:20px;
+	border-bottom-right-radius:20px;
+	box-shadow:0px 0px 15px #407fab;
+	background-clip:padding-box
+}
+h1 {
+	font-size:3em;
+	margin:0;
+	text-align:center;
+	text-shadow:0px 0px 20px #407fab
+}
+h2 {
+	text-transform:uppercase;
+	margin-top:10px;
+	text-shadow:0px 0px 5px #407fab;
+	text-align:center;
+	transform:rotate(-2deg)
+}
+h2:hover {
+	transform:rotate(2deg)
+}
+h2,h2:hover {
+	transition:all 0.5s ease-out
+}
+h3 {
+	text-shadow:0px 1px 0px #09121e
+}
+p {
+	line-height:1.4em;
+	margin-bottom:2em
+}
+#desc {
+	padding-top:20px;
+	font-size:1.2em
+}
+#example {
+	display:box;
+	box-pack:center;
+	box-align:center;
+	width:100%
+}
+#example div {
+	white-space:normal;
+	display:block
+}
+#example #arrow {
+	width:100px;
+	text-align:center;
+	font-size:3em;
+	text-shadow:0px 0px 5px #407fab
+}
+#download-well {
+	display:box;
+	box-pack:center;
+	width:100%;
+	padding:30px 0;
+	border:solid 1px #03416a;
+	border-width:1px 0;
+	margin-top:30px
+}
+#download {
+	display:block;
+	line-height:53px;
+	padding-left:54px;
+	background:url(download.png) no-repeat;
+	color:#c8e8ff;
+	font-weight:bold;
+	text-shadow:0px 1px 0px #09121e
+}
+#download:hover {
+	color:#fff;
+	text-shadow:0px 0px 10px #407fab
+}
+
+#download, #download:hover {transition:all 0.2s ease-out}
+
+small {
+	text-align:center;
+	margin-top:10px;
+	opacity:0.8;
+	display:block
+}
+small a {
+	color: #fff
+}
