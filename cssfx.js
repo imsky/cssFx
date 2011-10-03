@@ -109,7 +109,12 @@ function cssFxProcessElement(e, rule) {
 			}
 		break;
 		case "transform":
+		case "transform-origin":
 		case "transition":
+		case "transition-property":
+		case "transition-duration":
+		case "transition-timing-function":
+		case "transition-delay":
 		case "user-select":
 		//-moz, -webkit, -o, -ms
 			new_rules.push(prefix[0] + clean_rule);

@@ -35,8 +35,7 @@ Todo
 
   * text stroke
   * user-drag, user-modify
-  * specific transform properties
-  * specific transition properties
+  * parsing transition values for prefixes
   * perspective
   * mask
   * nbsp-mode
@@ -52,3 +51,5 @@ Todo
   * specific box-shadow properties
   * border-image
   * don't push empty style tags to DOM
+  * <del>specific transform properties</del>
+  * <del>specific transition properties</del>
