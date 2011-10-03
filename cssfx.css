@@ -63,8 +63,8 @@ em {
 	text-shadow:0px 0px 5px #407fab
 }
 #lead {display:box;box-pack:left;box-align:center}
-#download-well {width:300px;margin-left:50px}
-#desc {box-flex:1}
+#download-well {width:300px;display:box;box-pack:center}
+#desc {box-flex:1;margin-right:50px}
 
 #download {
 	display:block;
