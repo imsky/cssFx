@@ -41,7 +41,7 @@ Todo
   * @import support
   * media query support
   * specific box-shadow properties
-  * border-image
+  * <del>border-image</del>
   * don't push empty style tags to DOM
   * <del>specific transform properties</del>
   * <del>specific transition properties</del>

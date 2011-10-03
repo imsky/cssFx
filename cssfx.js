@@ -86,6 +86,11 @@ function cssFxProcessElement(e, rule) {
 		case "column-width":
 		case "background-size":
 		case "background-origin":
+		case "border-image":
+		case "border-image-source":
+		case "border-image-width":
+		case "border-image-outset":
+		case "border-image-repeat":
 		//-moz and -webkit
 			new_rules.push(prefix[0] + clean_rule);
 			new_rules.push(prefix[1] + clean_rule);
