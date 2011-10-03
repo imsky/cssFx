@@ -42,6 +42,6 @@ Todo
   * media query support
   * specific box-shadow properties
   * <del>border-image</del>
-  * don't push empty style tags to DOM
+  * <del>don't push empty style tags to DOM</del>
   * <del>specific transform properties</del>
   * <del>specific transition properties</del>
