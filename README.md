@@ -28,7 +28,7 @@ Browsers Supported
 
 Properties Supported
 ------
-Border radius, box shadow, flex box, gradients, multiple columns, transforms, transitions, opacity, inline-block, ellipsis, and more.
+Border radius, box shadow, flex box, gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
 
 Todo
 ------
