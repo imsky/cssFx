@@ -33,16 +33,10 @@ Border radius, box shadow, flex box, gradients, multiple columns, transforms, tr
 Todo
 ------
 
-  * text stroke
-  * user-drag, user-modify
   * parsing transition values for prefixes
-  * perspective
-  * mask
   * <del>line-break</del>
   * hyphens, hyphenate-character
-  * backface-visibility
-  * background-composite, background-origin, background-position
-  * animation
+  * background-composite, <del>background-origin</del>, background-position
   * rgba
   * @import support
   * media query support

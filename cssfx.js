@@ -9,7 +9,7 @@ function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\
 function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
 domReady(function () {
-var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background","line-break"];
+var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background","line-break","box-sizing","background-origin"];
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var style_els = document.getElementsByTagName("style");
@@ -85,6 +85,7 @@ function cssFxProcessElement(e, rule) {
 		case "column-rule-width":
 		case "column-width":
 		case "background-size":
+		case "background-origin":
 		//-moz and -webkit
 			new_rules.push(prefix[0] + clean_rule);
 			new_rules.push(prefix[1] + clean_rule);
@@ -97,6 +98,7 @@ function cssFxProcessElement(e, rule) {
 		case "box-pack":
 		case "box-direction":
 		case "box-lines":
+		case "box-sizing":
 		//-moz, -webkit, -ms
 		new_rules.push(prefix[0] + clean_rule);
 		new_rules.push(prefix[1] + clean_rule);
@@ -148,6 +150,7 @@ function cssFxProcessElement(e, rule) {
 		case "opacity":
 			new_rules.push("filter: alpha(opacity=" + parseInt(parseFloat(rule[1]) * 100) + ")");
 			new_rules.push(prefix[0] + clean_rule);
+			new_rules.push(prefix[1] + clean_rule);
 			break;
 		case "background-clip":
 			if(rule[1] === "padding-box"){
