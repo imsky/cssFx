@@ -9,7 +9,7 @@ function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\
 function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
 domReady(function () {
-var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background"];
+var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background","line-break"];
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var style_els = document.getElementsByTagName("style");
@@ -170,6 +170,10 @@ function cssFxProcessElement(e, rule) {
 				new_rules.push(rule[0] + ":" + prefix[2] + prop);
 				new_rules.push(rule[0] + ":" + prefix[3] + prop);
 			}
+		break;
+		case "line-break":
+		new_rules.push(rule[1]+clean_rule);
+		new_rules.push(rule[3]+clean_rule);
 		break;
 		}
 		if (new_rules.length > 0) {
