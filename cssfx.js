@@ -9,7 +9,7 @@ function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\
 function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
 domReady(function () {
-var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background"];
+var supported_rules = ["border-radius","box-shadow", "background-size", "border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "box-align", "box-direction", "box-flex", "box-flex-group", "box-lines", "box-ordinal-group", "box-orient", "box-pack", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width", "display", "opacity", "text-overflow", "transform", "transition","background-clip", "background-size", "background-image","background"];
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 var style_els = document.getElementsByTagName("style");
@@ -83,6 +83,7 @@ function cssFxProcessElement(e, rule) {
 		case "column-rule-style":
 		case "column-rule-color":
 		case "column-rule-width":
+		case "column-width":
 		case "background-size":
 		//-moz and -webkit
 			new_rules.push(prefix[0] + clean_rule);
