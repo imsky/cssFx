@@ -18,14 +18,8 @@ var css_files = [];
 //Processing external stylesheets
 for (var x in link_els) {
 	if (typeof (link_els[x]) === "object" && link_els[x].className === "cssfx") {
-		if (link_els[x].styleSheet) {
-			//Internet Explorer sees this, Firefox doesn't
-			css_files.push(link_els[x].styleSheet.cssText);
-		} else {
-			//We're doing it live
 			css_files.push(sjax(link_els[x].href));
 		}
-	}
 }
 //Processing in-page stylesheets
 for (var x in style_els) {
@@ -90,6 +84,10 @@ function cssFxProcessElement(e, rule) {
 		case "column-rule-color":
 		case "column-rule-width":
 		case "background-size":
+		//-moz and -webkit
+			new_rules.push(prefix[0] + clean_rule);
+			new_rules.push(prefix[1] + clean_rule);
+			break;
 		case "box-flex":
 		case "box-orient":
 		case "box-align":
@@ -98,10 +96,17 @@ function cssFxProcessElement(e, rule) {
 		case "box-pack":
 		case "box-direction":
 		case "box-lines":
-		//-moz and -webkit
-			new_rules.push(prefix[0] + clean_rule);
-			new_rules.push(prefix[1] + clean_rule);
-			break;
+		//-moz, -webkit, -ms
+		new_rules.push(prefix[0] + clean_rule);
+		new_rules.push(prefix[1] + clean_rule);
+		if(rule[0] === "box-align"){
+			new_rules.push(prefix[3] + rule[0] + ":middle");
+
+			}
+			else{
+				new_rules.push(prefix[3] + clean_rule);
+			}
+		break;
 		case "transform":
 		case "transition":
 		case "user-select":
