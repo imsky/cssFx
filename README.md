@@ -28,19 +28,22 @@ Browsers Supported
 
 Properties Supported
 ------
-Border radius, box shadow, flex box, gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
+Border radius, box shadow, flex box, RGBA, gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
+
+Important Considerations
+------
+
+* IE and other browsers variously remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
 
 Todo
 ------
 
   * parsing transition values for prefixes
-  * <del>line-break</del>
   * hyphens, hyphenate-character
   * background-composite, <del>background-origin</del>, background-position
-  * rgba
   * @import support
   * media query support
-  * specific box-shadow properties
+  * <del>rgba</del>
   * <del>border-image</del>
   * <del>don't push empty style tags to DOM</del>
   * <del>specific transform properties</del>

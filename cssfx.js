@@ -8,17 +8,30 @@ function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\
 
 function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
+function rgb2hex(a,b,c){return((256+a<<8|b)<<8|c).toString(16).slice(1)}
+
+if (!Array.indexOf) {
+  Array.prototype.indexOf = function (obj, start) {
+    for (var i = (start || 0); i < this.length; i++) {
+      if (this[i] == obj) {
+        return i;
+      }
+    }
+    return -1;
+  }
+}
+
+
 var prefixes0123 = ["transform","transform-origin","transition","transition-property","transition-duration","transition-timing-function","transition-delay","user-select"];
 var prefixes01 = ["border-radius","box-shadow","column-count","column-gap","column-rule","column-rule-style","column-rule-color","column-rule-width","column-width","background-size","background-origin","border-image","border-image-source","border-image-width","border-image-outset","border-image-repeat"];
 var prefixes013 = ["box-flex","box-orient","box-align","box-ordinal-group","box-flex-group","box-pack","box-direction","box-lines","box-sizing"];
 
-var supported_rules = ["border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "display", "opacity", "text-overflow", "background-clip", "background-image", "background", "line-break"].concat(prefixes0123).concat(prefixes01).concat(prefixes013);
-
+var supported_rules = ["border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "display", "opacity", "text-overflow", "background-clip", "background-image", "background"].concat(prefixes0123).concat(prefixes01).concat(prefixes013);
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 
-domReady(function () {
 
+domReady(function () {
 var style_els = document.getElementsByTagName("style");
 var link_els = document.getElementsByTagName("link");
 var css_files = [];
@@ -34,7 +47,9 @@ for (var x in style_els) {
 		css_files.push(style_els[x].innerHTML);
 	}
 }
+
 for (var x in css_files) {
+	if(typeof css_files[x] === "string"){
 	var css_fx_output = document.createElement('style');
 	css_fx_output.setAttribute('type', 'text/css');
 	var css = css_files[x];
@@ -54,7 +69,7 @@ for (var x in css_files) {
 			}
 		}
 	}
-	if (rules.length) {
+	if (rules.length>0) {
 		var css_fx_rules = rules.join("\n")
 		if (css_fx_output.styleSheet) {
 			//Internet Explorer
@@ -66,12 +81,12 @@ for (var x in css_files) {
 		document.getElementsByTagName("head")[0].appendChild(css_fx_output);
 	}
 }
+}
 
 function cssFxProcessElement(e, rule) {
-	var css_array = rule.split(";"),
-		rules = [];
+	var css_array = rule.split(";"), rules = [];
 	for (var r in css_array) {
-		if (css_array[r].indexOf(":") !== -1) {
+		if (typeof css_array[r] === "string" && css_array[r].indexOf(":") !== -1) {
 			var rule = css_array[r].split(":");
 			rule[0] = str_trim(rule[0]);
 			rule[1] = str_trim(rule[1]);
@@ -79,7 +94,7 @@ function cssFxProcessElement(e, rule) {
 			var clean_rule = rule.join(":");
 			if (prefixes01.indexOf(rule[0]) !== -1) {
 				new_rules.push(prefix[0] + clean_rule);
-				new_rules.push(prefix[1] + clean_rule)
+				new_rules.push(prefix[1] + clean_rule);
 			} else if (prefixes013.indexOf(rule[0]) !== -1) {
 				//-moz, -webkit, -ms
 				new_rules.push(prefix[0] + clean_rule);
@@ -132,6 +147,7 @@ function cssFxProcessElement(e, rule) {
 					}
 					break;
 				case "background-image":
+				case "background-color":
 				case "background":
 					var lg = "linear-gradient";
 					if (rule[1].indexOf(lg) === 0) {
@@ -146,10 +162,12 @@ function cssFxProcessElement(e, rule) {
 						new_rules.push(rule[0] + ":" + prefix[2] + prop);
 						new_rules.push(rule[0] + ":" + prefix[3] + prop);
 					}
-					break;
-				case "line-break":
-					new_rules.push(rule[1] + clean_rule);
-					new_rules.push(rule[3] + clean_rule);
+					else if(rule[1].indexOf("rgba") !== -1){
+						//Color array
+						var cA = rule[1].match(/rgba\((.*?)\)/)[1].split(",");
+						var hex = Math.floor(+(str_trim(cA[3]))*255).toString(16)+rgb2hex(+str_trim(cA[0]),+str_trim(cA[1]),+str_trim(cA[2]));
+						new_rules.push("filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#"+hex+",endColorstr=#"+hex+");zoom:1");
+					}
 					break;
 				}
 			}
