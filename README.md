@@ -35,16 +35,10 @@ Important Considerations
 
 * IE and other browsers variously remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
 
-Todo
+Roadmap
 ------
 
-  * parsing transition values for prefixes
-  * hyphens, hyphenate-character
-  * background-composite, <del>background-origin</del>, background-position
-  * @import support
-  * media query support
-  * <del>rgba</del>
-  * <del>border-image</del>
-  * <del>don't push empty style tags to DOM</del>
-  * <del>specific transform properties</del>
-  * <del>specific transition properties</del>
+  * @import support (0.8)
+  * Docs to deal with writing CSS for cssfx, FOUC (0.8.5)
+  * media query support (0.9)
+  * parsing transition values for prefixes (0.9.5)
