@@ -35,6 +35,10 @@ Important Considerations
 
 * IE and other browsers variously remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
 
+License
+------
+cssFx is provided under the BSD license. Commercial and personal use is permitted.
+
 Roadmap
 ------
 
