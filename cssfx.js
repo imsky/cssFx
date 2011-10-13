@@ -13,8 +13,6 @@ function rgb2hex(a,b,c){return((256+a<<8|b)<<8|c).toString(16).slice(1)}
 
 if(!Array.indexOf)Array.prototype.indexOf=function(c,b){for(var a=b||0;a<this.length;a++)if(this[a]==c)return a;return-1};
 
-var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
-
 //cssFx-specific data
 
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
@@ -25,14 +23,15 @@ var prefixes0123 = ["transform","transform-origin","transition","transition-prop
 
 var supported_rules = ["border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "display", "opacity", "text-overflow", "background-clip", "background-image", "background"].concat(prefixes0123).concat(prefixes01).concat(prefixes013);
 
-fx.processStylesheets = function(css_files) {
+fx.processCSS = function(css_files) {
+	var css_fx_output = [];
+	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	for (var x in css_files) {
 		if (typeof css_files[x] === "string") {
-			var css_fx_output = document.createElement('style');
-			css_fx_output.setAttribute('type', 'text/css');
 			var css = css_files[x];
 			var rules = [];
-			for (var y = 0, match_count = css.match(css_regex).length; y < match_count; y++) {
+			var match_count = +(css_regex.test(css) && css.match(css_regex).length);
+			for (var y = 0; y < match_count; y++) {
 				var match = css_regex.exec(css);
 				if (match !== null) {
 					var selector = str_trim(strip_css_comments(match[1]));
@@ -46,20 +45,27 @@ fx.processStylesheets = function(css_files) {
 						}
 					}
 				}
+				css_regex.lastIndex = 0;
 			}
 			if (rules.length > 0) {
-				var css_fx_rules = rules.join("\n")
-				if (css_fx_output.styleSheet) {
-					//Internet Explorer
-					css_fx_output.styleSheet.cssText = css_fx_rules;
-				} else {
-					//Everyone else
-					css_fx_output.textContent = css_fx_rules;
-				}
-				document.getElementsByTagName("head")[0].appendChild(css_fx_output);
+				css_fx_output.push(rules.join("\n"));
 			}
 		}
 	}
+	return css_fx_output;
+}
+
+fx.insertCSS = function(css_fx_rules){
+	var css_fx_output = document.createElement('style');
+		css_fx_output.setAttribute('type', 'text/css');
+		if (css_fx_output.styleSheet) {
+					//Internet Explorer
+					css_fx_output.styleSheet.cssText = css_fx_rules;
+		} else {
+			//Everyone else
+			css_fx_output.textContent = css_fx_rules;
+		}
+		document.getElementsByTagName("head")[0].appendChild(css_fx_output);
 }
 
 fx.processElement = function (e, rule) {
@@ -130,7 +136,7 @@ fx.processElement = function (e, rule) {
 				case "background-color":
 				case "background":
 					var lg = "linear-gradient";
-					if (rule[1].indexOf(lg) === 0) {
+					if (rule[1].indexOf(lg) !== -1) {
 						var attributes = rule[1].substr(lg.length);
 						if (rule[0] === "background-image") {
 							attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
@@ -175,6 +181,6 @@ domReady(function () {
 			css_files.push(style_els[x].innerHTML);
 		}
 	}
-	fx.processStylesheets(css_files);
+	fx.insertCSS(fx.processCSS(css_files));
 })
 })(cssFx);
