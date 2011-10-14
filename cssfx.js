@@ -59,14 +59,14 @@ fx.processCSS = function(css_files) {
 			var rules = [];
 			var match_count = +(css_regex.test(css) && css.match(css_regex).length);
 			var import_match_count = +(import_regex.test(css) && css.match(import_regex).length);
+			import_regex.lastIndex = 0;
+			css_regex.lastIndex = 0;
 			if(import_match_count > 0){
 				for(var y = 0; y < import_match_count; y++){
-					import_regex.exec(""); //Believe it or not, this fixes regex problems in Chrome/Safari
 					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]],true));
 				}
 			}
 			for (var y = 0; y < match_count; y++) {
-				css_regex.exec("");  //Believe it or not, this fixes regex problems in Chrome/Safari
 				var match = (css_regex).exec(css.match(css_regex)[y]);
 				if (match !== null) {
 					var selector = str_trim(strip_css_comments(match[1]));
