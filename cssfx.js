@@ -53,13 +53,21 @@ var supported_rules = ["border-bottom-left-radius", "border-bottom-right-radius"
 fx.processCSS = function(css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
-	for (var x in css_files) {
-		if (typeof css_files[x] === "string") {
+	var import_regex = /\@import\s(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
+	for (var x = 0; x < css_files.length; x++) {
 			var css = css_files[x];
 			var rules = [];
 			var match_count = +(css_regex.test(css) && css.match(css_regex).length);
+			var import_match_count = +(import_regex.test(css) && css.match(import_regex).length);
+			if(import_match_count > 0){
+				for(var y = 0; y < import_match_count; y++){
+					import_regex.exec(""); //Believe it or not, this fixes regex problems in Chrome/Safari
+					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]],true));
+				}
+			}
 			for (var y = 0; y < match_count; y++) {
-				var match = css_regex.exec(css);
+				css_regex.exec("");  //Believe it or not, this fixes regex problems in Chrome/Safari
+				var match = (css_regex).exec(css.match(css_regex)[y]);
 				if (match !== null) {
 					var selector = str_trim(strip_css_comments(match[1]));
 					var rule = str_trim(strip_css_comments(match[2])).replace(/\s{2,}|\t/gm, " ");
@@ -72,12 +80,11 @@ fx.processCSS = function(css_files) {
 						}
 					}
 				}
-				css_regex.lastIndex = 0;
 			}
 			if (rules.length > 0) {
 				css_fx_output.push(rules.join("\n"));
 			}
-		}
+
 	}
 	return css_fx_output;
 }
@@ -195,17 +202,25 @@ fx.processElement = function (e, rule) {
 	return (rules.length > 0 ? e + "{" + rules.join(";") + "}" : false);
 }
 
+fx.fetchCSS = function(files,single){
+	var css_files = [];
+	for (var x in files) {
+			typeof(files[x]) === "string" && css_files.push(sjax(files[x]));
+	}
+	return single===undefined?css_files:css_files[0];
+}
 
 domReady(function () {
 	var style_els = document.getElementsByTagName("style");
 	var link_els = document.getElementsByTagName("link");
-	var css_files = [];
+	var link_hrefs = [];
 	//Processing external stylesheets
 	for (var x in link_els) {
 		if (typeof (link_els[x]) === "object" && link_els[x].className === "cssfx") {
-			css_files.push(sjax(link_els[x].href));
+			link_hrefs.push(link_els[x].href);
 		}
 	}
+	var css_files = fx.fetchCSS(link_hrefs);
 	//Processing in-page stylesheets
 	for (var x in style_els) {
 		if (typeof (style_els[x]) === "object") {
