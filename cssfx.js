@@ -84,16 +84,18 @@ fx.processCSS = function(css_files) {
 
 fx.insertCSS = function(output){
 	for(var x in output){
+		if(typeof output[x] === "string"){
 		var css_fx_output = document.createElement('style');
 		css_fx_output.setAttribute('type', 'text/css');
 		if (css_fx_output.styleSheet) {
-					//Internet Explorer
-					css_fx_output.styleSheet.cssText = output[x];
+			//Internet Explorer
+			css_fx_output.styleSheet.cssText = output[x];
 		} else {
 			//Everyone else
 			css_fx_output.textContent = output[x];
 		}
 		document.getElementsByTagName("head")[0].appendChild(css_fx_output);
+		}
 	}
 }
 
