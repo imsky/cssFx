@@ -42,6 +42,6 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
-  * Docs to deal with writing CSS for cssfx, FOUC (0.8.5)
+  * Add IE8 opacity fix (0.8.5)
   * media query support (0.9)
   * parsing transition values for prefixes (0.9.5)
