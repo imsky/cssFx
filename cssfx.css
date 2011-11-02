@@ -44,24 +44,20 @@ em {
 	font-size:1.2em
 }
 #example {
-	box-shadow:0px 0px 15px #407fab;
-	border-radius:10px;
-	display:box;
-	box-pack:center;
-	box-align:center;
 	width:100%;
 	padding:20px 0;
-	margin:30px 0
+	margin:30px 0;
+	overflow:hidden
 }
-#example div {
-	display:block
-}
-#example #arrow {
-	width:100px;
-	text-align:center;
-	font-size:3em;
-	text-shadow:0px 0px 5px #407fab
-}
+
+#example-to, #example-from {float:left;width:45%}
+#example-from, #example-to {margin-left:3%}
+#example textarea {width:98%;min-width:98%;max-width:98%;min-height:200px;height:200px;background:transparent;color:#fff;font-family:Envy Code R, monospace;font-size:14px;border:solid 1px #003C62;border-radius:4px;padding:5px;box-shadow:inset 0px 2px 8px #09121e}
+#example textarea:focus {box-shadow:0px 0px 8px #407fab}
+#generate {margin:3%;width:94%;margin-bottom:0;padding:10px;font-size:2em;font-weight:bold;font-family:sans-serif;border-radius:8px;border:0;background:0;	text-shadow:0px 0px 20px #407fab;color:#fff;	box-shadow:0px 0px 10px #407fab;}
+#generate:hover {box-shadow:0px 0px 13px #47b6ff;transform:scale(1.02)}
+#generate, #generate:hover {transition:all 0.2s ease-out}
+
 #lead {display:box;box-pack:left;box-align:center}
 #download-well {width:300px;display:box;box-pack:center}
 #desc {box-flex:1;margin-right:50px}

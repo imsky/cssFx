@@ -22,9 +22,18 @@ body {
 	color:#fff
 }
 </style>
+<script type="text/javascript" src="cssfx.min.js"></script>
+<script type="text/javascript">
+function generateHandler(){
+	document.getElementById("generate").onclick = function(){
+	var newCSS = cssFx.processCSS([document.getElementById("example-from-text").value])[0];
+	document.getElementById("example-to-text").value=newCSS.replace(/\{/g," { \r\n").replace(/\}/g,"\n}\r\n\n");
+	}
+	}
+</script>
 <link rel="stylesheet" href="cssfx.css" class="cssfx">
 </head>
-<body>
+<body onload="generateHandler()">
 <a href="http://github.com/imsky/cssFx"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/4c7dc970b89fd04b81c8e221ba88ff99a06c6b61/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a>
 <div id="cssfx">
 	<h1>cssFx</h1>
@@ -34,41 +43,39 @@ body {
 		 cssFx is a standalone polyfill that inserts the vendor-specific CSS3 properties necessary for old <em title="Without cssFx, you wouldn't see the flexbox layout below in Firefox 7, Chrome 16, or Internet Explorer 10.">and new</em> browsers. This saves you tons of time, maintenance, and bandwidth! Check it out:
 	</p>
 	<div id="download-well">
-		<a href="http://github.com/imsky/cssFx/zipball/master" id="download">Download cssFx (4.4 KB)</a>
+		<a href="http://github.com/imsky/cssFx/zipball/master" id="download">Download cssFx (4.7 KB)</a>
 	</div>
 	</div>
 	<div id="example">
-		<div>
-			<h3>CSS rules</h3>
-			<code>#example {<br>
-					box-shadow:0px 0px 15px #407fab;<br>
-					border-radius:10px;<br>
-					display:box;<br>
-					box-pack:center;<br>
-					box-align:center<br>
-					}
-	</code>
+		<div id="example-from">
+		<h3>CSS Rules</h3>
+		<textarea id="example-from-text">#example {
+box-shadow:0px 0px 15px #407fab;
+border-radius:10px;
+display:box;
+box-pack:center;
+box-align:center
+} </textarea>
 		</div>
-		<div id="arrow">
-			 &rarr;
+		<div id="example-to">
+		<h3>cssFx Generated Rules</h3>
+		<textarea id="example-to-text">#example {
+	-moz-box-shadow:0px 0px 15px #407fab;
+	-webkit-box-shadow:0px 0px 15px #407fab;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	display:-moz-box;
+	display:-webkit-box;
+	display:-ms-box;
+	-moz-box-pack:center;
+	-webkit-box-pack:center;
+	-ms-box-pack:center;
+	-moz-box-align:center;
+	-webkit-box-align:center;
+	-ms-box-align: middle
+}</textarea>
 		</div>
-		<div>
-			<h3>cssFx generated rules</h3>
-			<code>#example {<br>
-			-moz-box-shadow:0px 0px 15px #407fab;<br>
-			-webkit-box-shadow:0px 0px 15px #407fab;<br>
--moz-border-radius:10px;<br>
--webkit-border-radius:10px;<br>
-display:-moz-box;<br>
-display:-webkit-box;<br>
-display:-ms-box;<br>
--moz-box-pack:center;<br>
--webkit-box-pack:center;<br>
--ms-box-pack:center;<br>
--moz-box-align:center;<br>
--webkit-box-align:center;<br>
--ms-box-align:middle<br>}</code>
-		</div>
+		<button id="generate">Generate Prefixes!</button>
 	</div>
 	<h3>What features are supported?</h3>
 	<p>
@@ -86,8 +93,6 @@ display:-ms-box;<br>
 	<code>&lt;link rel="stylesheet" href="effects.css" class="cssfx"&gt;</code>
 	<small>Made by <a href="http://imsky.co">Ivan Malopinsky</a></small>
 </div>
-
-<script type="text/javascript" src="cssfx.min.js"></script>
 <!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://analytics.imsky.co/" : "http://analytics.imsky.co/");
