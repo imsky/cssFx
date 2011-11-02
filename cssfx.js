@@ -54,25 +54,31 @@ fx.processCSS = function(css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
-	for (var x = 0; x < css_files.length; x++) {
+	for (var x in css_files) {
 			var css = css_files[x];
-			var rules = [];
-			var match_count = +(css_regex.test(css) && css.match(css_regex).length);
-			var import_match_count = +(import_regex.test(css) && css.match(import_regex).length);
-			import_regex.lastIndex = 0;
-			css_regex.lastIndex = 0;
-			if(import_match_count > 0){
+			if(typeof css === "string"){
+				var rules = [];
+			var matches = css_regex.test(css) && css.match(css_regex);
+			var imports = import_regex.test(css) && css.match(import_regex);
+			import_regex.lastIndex = -1;
+			css_regex.lastIndex = -1;
+			if(imports.length > 0){
 				for(var y = 0; y < import_match_count; y++){
 					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]],true));
 				}
 			}
-			for (var y = 0; y < match_count; y++) {
-				var match = (css_regex).exec(css.match(css_regex)[y]);
-				if (match !== null) {
-					var selector = str_trim(strip_css_comments(match[1]));
-					var rule = str_trim(strip_css_comments(match[2])).replace(/\s{2,}|\t/gm, " ");
+			for(var x in matches){
+				var nextMatch;
+				if(typeof matches[x] === "string"){
+				nextMatch = css_regex.exec(matches[x]);
+				if(nextMatch === null){
+				nextMatch = css_regex.exec(matches[x]);
+				}
+				if(nextMatch !== null){
+				var selector = str_trim(strip_css_comments(nextMatch[1]));
+					var rule = str_trim(strip_css_comments(nextMatch[2])).replace(/\s{2,}|\t/gm, " ");
 					for (var z in supported_rules) {
-						if (rule.indexOf(supported_rules[z]) != -1) {
+						if (rule.indexOf(supported_rules[z]) !== -1) {
 							if (converted_rule = fx.processElement(selector, rule)) {
 								rules.push(converted_rule);
 							}
@@ -80,10 +86,13 @@ fx.processCSS = function(css_files) {
 						}
 					}
 				}
+				}
 			}
 			if (rules.length > 0) {
 				css_fx_output.push(rules.join("\n"));
 			}
+			}
+
 
 	}
 	return css_fx_output;
