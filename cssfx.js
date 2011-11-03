@@ -49,33 +49,27 @@ var prefixes013 = ["box-flex","box-orient","box-align","box-ordinal-group","box-
 var prefixes0123 = ["transform","transform-origin","transition","transition-property","transition-duration","transition-timing-function","transition-delay","user-select"];
 
 var supported_rules = ["border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "display", "opacity", "text-overflow", "background-clip", "background-image", "background"].concat(prefixes0123).concat(prefixes01).concat(prefixes013);
-
-fx.processCSS = function(css_files) {
+fx.processCSS = function (css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
-	for (var x in css_files) {
-			var css = css_files[x];
-			if(typeof css === "string"){
-				var rules = [];
+	for (var x = 0; x < css_files.length; x++) {
+		var css = css_files[x];
+		if (typeof css === "string") {
+			var rules = [];
 			var matches = css_regex.test(css) && css.match(css_regex);
 			var imports = import_regex.test(css) && css.match(import_regex);
-			import_regex.lastIndex = -1;
-			css_regex.lastIndex = -1;
-			if(imports.length > 0){
-				for(var y = 0; y < import_match_count; y++){
-					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]],true));
+			import_regex.lastIndex = 0;
+			css_regex.lastIndex = 0;
+			if (imports.length > 0) {
+				for (var y = 0; y < import_match_count; y++) {
+					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]], true));
 				}
 			}
-			for(var x in matches){
-				var nextMatch;
-				if(typeof matches[x] === "string"){
-				nextMatch = css_regex.exec(matches[x]);
-				if(nextMatch === null){
-				nextMatch = css_regex.exec(matches[x]);
-				}
-				if(nextMatch !== null){
-				var selector = str_trim(strip_css_comments(nextMatch[1]));
+			for (var x in matches) {
+				var nextMatch = css_regex.exec(matches[x]);
+				if (nextMatch !== null) {
+					var selector = str_trim(strip_css_comments(nextMatch[1]));
 					var rule = str_trim(strip_css_comments(nextMatch[2])).replace(/\s{2,}|\t/gm, " ");
 					for (var z in supported_rules) {
 						if (rule.indexOf(supported_rules[z]) !== -1) {
@@ -86,35 +80,31 @@ fx.processCSS = function(css_files) {
 						}
 					}
 				}
-				}
+				css_regex.lastIndex = 0;
 			}
 			if (rules.length > 0) {
 				css_fx_output.push(rules.join("\n"));
 			}
-			}
-
-
+		}
 	}
 	return css_fx_output;
 }
-
-fx.insertCSS = function(output){
-	for(var x in output){
-		if(typeof output[x] === "string"){
-		var css_fx_output = document.createElement('style');
-		css_fx_output.setAttribute('type', 'text/css');
-		if (css_fx_output.styleSheet) {
-			//Internet Explorer
-			css_fx_output.styleSheet.cssText = output[x];
-		} else {
-			//Everyone else
-			css_fx_output.textContent = output[x];
-		}
-		document.getElementsByTagName("head")[0].appendChild(css_fx_output);
+fx.insertCSS = function (output) {
+	for (var x in output) {
+		if (typeof output[x] === "string") {
+			var css_fx_output = document.createElement('style');
+			css_fx_output.setAttribute('type', 'text/css');
+			if (css_fx_output.styleSheet) {
+				//Internet Explorer
+				css_fx_output.styleSheet.cssText = output[x];
+			} else {
+				//Everyone else
+				css_fx_output.textContent = output[x];
+			}
+			document.getElementsByTagName("head")[0].appendChild(css_fx_output);
 		}
 	}
 }
-
 fx.processElement = function (e, rule) {
 	var css_array = rule.split(";"),
 		rules = [];
@@ -170,8 +160,8 @@ fx.processElement = function (e, rule) {
 					break;
 				case "opacity":
 					var opacity = parseInt(parseFloat(rule[1]) * 100);
-					new_rules.push(prefix[3]+"filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity="+opacity+")");
-					new_rules.push("filter: alpha(opacity=" + opacity  + ")");
+					new_rules.push(prefix[3] + "filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=" + opacity + ")");
+					new_rules.push("filter: alpha(opacity=" + opacity + ")");
 					new_rules.push(prefix[0] + clean_rule);
 					new_rules.push(prefix[1] + clean_rule);
 					break;
@@ -212,15 +202,13 @@ fx.processElement = function (e, rule) {
 	}
 	return (rules.length > 0 ? e + "{" + rules.join(";") + "}" : false);
 }
-
-fx.fetchCSS = function(files,single){
+fx.fetchCSS = function (files, single) {
 	var css_files = [];
 	for (var x in files) {
-			typeof(files[x]) === "string" && css_files.push(sjax(files[x]));
+		typeof (files[x]) === "string" && css_files.push(sjax(files[x]));
 	}
-	return single===undefined?css_files:css_files[0];
+	return single === undefined ? css_files : css_files[0];
 }
-
 domReady(function () {
 	var style_els = document.getElementsByTagName("style");
 	var link_els = document.getElementsByTagName("link");
