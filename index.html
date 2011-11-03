@@ -27,7 +27,7 @@ body {
 function generateHandler(){
 	document.getElementById("generate").onclick = function(){
 	var newCSS = cssFx.processCSS([document.getElementById("example-from-text").value])[0];
-	document.getElementById("example-to-text").value=newCSS.replace(/\{/g," { \r\n").replace(/\}/g,"\n}\r\n\n");
+	document.getElementById("example-to-text").value=newCSS.replace(/\{/g," { \r\n").replace(/\}/g,"\n}\r\n\n").replace(/\;/g,";\n");
 	}
 	}
 </script>
@@ -60,19 +60,19 @@ box-align:center
 		<div id="example-to">
 		<h3>cssFx Generated Rules</h3>
 		<textarea id="example-to-text">#example {
-	-moz-box-shadow:0px 0px 15px #407fab;
-	-webkit-box-shadow:0px 0px 15px #407fab;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	display:-moz-box;
-	display:-webkit-box;
-	display:-ms-box;
-	-moz-box-pack:center;
-	-webkit-box-pack:center;
-	-ms-box-pack:center;
-	-moz-box-align:center;
-	-webkit-box-align:center;
-	-ms-box-align: middle
+-moz-box-shadow:0px 0px 15px #407fab;
+-webkit-box-shadow:0px 0px 15px #407fab;
+-moz-border-radius:10px;
+-webkit-border-radius:10px;
+display:-moz-box;
+display:-webkit-box;
+display:-ms-box;
+-moz-box-pack:center;
+-webkit-box-pack:center;
+-ms-box-pack:center;
+-moz-box-align:center;
+-webkit-box-align:center;
+-ms-box-align: middle
 }</textarea>
 		</div>
 		<button id="generate">Generate Prefixes!</button>
