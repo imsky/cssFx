@@ -53,7 +53,7 @@ fx.processCSS = function (css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
-	for (var x = 0; x < css_files.length; x++) {
+	for (var x in css_files) {
 		var css = css_files[x];
 		if (typeof css === "string") {
 			var rules = [];
