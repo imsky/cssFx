@@ -3,6 +3,10 @@ cssFx
 
 cssFx is a standalone polyfill that inserts the vendor-specific CSS3 properties necessary for old and new browsers. This saves you tons of time, maintenance, and bandwidth!
 
+Properties Supported
+------
+Border radius, box shadow, flex box, RGBA, gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
+
 Usage
 ------
  * Include a script tag in your source:
@@ -25,10 +29,6 @@ Browsers Supported
   * Internet Explorer 6+
   * Safari 3+
   * Opera 9+
-
-Properties Supported
-------
-Border radius, box shadow, flex box, RGBA, gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
 
 Important Considerations
 ------
