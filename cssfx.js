@@ -190,7 +190,7 @@ fx.processElement = function (e, rule) {
 						}
 						var prop = lg + attributes;
 						new_rules.push(rule[0] + ":" + prefix[0] + prop);
-						new_rules.push(rule[0] + ":" + prefix[1] + "gradient" + prop);
+						//new_rules.push(rule[0] + ":" + prefix[1] + "gradient" + prop); Old webkit, needs to be rewritten
 						new_rules.push(rule[0] + ":" + prefix[1] + prop);
 						new_rules.push(rule[0] + ":" + prefix[2] + prop);
 						new_rules.push(rule[0] + ":" + prefix[3] + prop);
