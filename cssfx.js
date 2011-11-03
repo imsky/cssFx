@@ -169,7 +169,9 @@ fx.processElement = function (e, rule) {
 					}
 					break;
 				case "opacity":
-					new_rules.push("filter: alpha(opacity=" + parseInt(parseFloat(rule[1]) * 100) + ")");
+					var opacity = parseInt(parseFloat(rule[1]) * 100);
+					new_rules.push(prefix[3]+"filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity="+opacity+")");
+					new_rules.push("filter: alpha(opacity=" + opacity  + ")");
 					new_rules.push(prefix[0] + clean_rule);
 					new_rules.push(prefix[1] + clean_rule);
 					break;
