@@ -40,6 +40,8 @@ function rgb2hex(a,b,c){return((256+a<<8|b)<<8|c).toString(16).slice(1)}
 
 if(!Array.indexOf)Array.prototype.indexOf=function(c,b){for(var a=b||0;a<this.length;a++)if(this[a]==c)return a;return-1};
 
+function eachA(b,c){for(var d=b.length,a=0;a<d;a++)c.call(this,b[a])};
+
 //cssFx-specific data
 
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
@@ -129,10 +131,7 @@ fx.processElement = function (e, rule) {
 				}
 			} else if (prefixes0123.indexOf(rule[0]) !== -1) {
 				//-moz, -webkit, -o, -ms
-				new_rules.push(prefix[0] + clean_rule);
-				new_rules.push(prefix[1] + clean_rule);
-				new_rules.push(prefix[2] + clean_rule);
-				new_rules.push(prefix[3] + clean_rule);
+				eachA([0,1,2,3],function(r){new_rules.push(prefix[r] + clean_rule)});
 			} else {
 				switch (rule[0]) {
 				case "border-top-left-radius":
@@ -145,9 +144,7 @@ fx.processElement = function (e, rule) {
 					break;
 				case "display":
 					if (rule[1] === "box") {
-						new_rules.push("display:" + prefix[0] + rule[1]);
-						new_rules.push("display:" + prefix[1] + rule[1]);
-						new_rules.push("display:" + prefix[3] + rule[1]);
+						eachA([0,1,3],function(r){new_rules.push("display:" + prefix[0] + rule[1])});
 					} else if (rule[1] === "inline-block") {
 						new_rules.push("display:" + prefix[0] + "inline-stack");
 						new_rules.push("zoom:1;*display:inline");
@@ -181,11 +178,7 @@ fx.processElement = function (e, rule) {
 							attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
 						}
 						var prop = lg + attributes;
-						new_rules.push(rule[0] + ":" + prefix[0] + prop);
-						//new_rules.push(rule[0] + ":" + prefix[1] + "gradient" + prop); Old webkit, needs to be rewritten
-						new_rules.push(rule[0] + ":" + prefix[1] + prop);
-						new_rules.push(rule[0] + ":" + prefix[2] + prop);
-						new_rules.push(rule[0] + ":" + prefix[3] + prop);
+						eachA([0,1,2,3],function(r){rule[0] + ":" + prefix[r] + prop});
 					} else if (rule[1].indexOf("rgba") !== -1) {
 						//Color array
 						var cA = rule[1].match(/rgba\((.*?)\)/)[1].split(",");
@@ -207,7 +200,7 @@ fx.fetchCSS = function (files, single) {
 	for (var x in files) {
 		typeof (files[x]) === "string" && css_files.push(sjax(files[x]));
 	}
-	return single === undefined ? css_files : css_files[0];
+	return single == null ? css_files : css_files[0];	//undefined coerces to null
 }
 domReady(function () {
 	var style_els = document.getElementsByTagName("style");
