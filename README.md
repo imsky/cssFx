@@ -43,4 +43,5 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
+  * @keyframe support (0.9.3)
   * media query support (0.9.5)
