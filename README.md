@@ -43,5 +43,4 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
-  * media query support (0.9)
-  * parsing transition values for prefixes (0.9.5)
+  * media query support (0.9.5)

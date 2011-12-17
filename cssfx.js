@@ -50,7 +50,12 @@ var prefixes01 = ["background-origin", "background-size", "border-image", "borde
 var prefixes013 = ["box-flex","box-orient","box-align","box-ordinal-group","box-flex-group","box-pack","box-direction","box-lines","box-sizing"];
 var prefixes0123 = ["transform","transform-origin","transition","transition-property","transition-duration","transition-timing-function","transition-delay","user-select"];
 
-var supported_rules = ["border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius", "display", "opacity", "text-overflow", "background-clip", "background-image", "background"].concat(prefixes0123).concat(prefixes01).concat(prefixes013);
+var prefixesMisc = ["background-clip","border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius"];
+
+var prefixed_rules = prefixesMisc.concat(prefixes0123).concat(prefixes01).concat(prefixes013);
+
+var supported_rules = ["display", "opacity", "text-overflow", "background-image", "background"].concat(prefixed_rules);
+
 fx.processCSS = function (css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
@@ -113,6 +118,9 @@ fx.processElement = function (e, rule) {
 	for (var r in css_array) {
 		if (typeof css_array[r] === "string" && css_array[r].indexOf(":") !== -1) {
 			var rule = css_array[r].split(":");
+			if (rule.length != 2) {
+				return false;
+			}
 			rule[0] = str_trim(rule[0]);
 			rule[1] = str_trim(rule[1]);
 			var new_rules = [];
@@ -131,7 +139,30 @@ fx.processElement = function (e, rule) {
 				}
 			} else if (prefixes0123.indexOf(rule[0]) !== -1) {
 				//-moz, -webkit, -o, -ms
-				eachA([0,1,2,3],function(r){new_rules.push(prefix[r] + clean_rule)});
+				//This includes all transition rules
+				eachA([0, 1, 2, 3], function (_r) {
+					if (rule[0] == "transition") {
+						var trans_prop = rule[1].split(" ")[0];
+						if (prefixed_rules.indexOf(trans_prop) !== -1) {
+							new_rules.push(prefix[_r] + clean_rule.replace(trans_prop, prefix[_r] + trans_prop));
+						}
+					} else if (rule[0] == "transition-property") {
+						if (_r == 0) {
+							//Only Firefox supports this at the moment
+							var trans_props = rule[1].split(",");
+							var replaced_props = [];
+							eachA(trans_props, function (p) {
+								var prop = str_trim(p);
+								if (prefixed_rules.indexOf(prop) !== -1) {
+									replaced_props.push(prefix[_r] + prop);
+								}
+							});
+							new_rules.push(prefix[_r] + rule[0] + ":" + replaced_props.join(","))
+						}
+					} else {
+						new_rules.push(prefix[_r] + clean_rule)
+					}
+				});
 			} else {
 				switch (rule[0]) {
 				case "border-top-left-radius":
@@ -144,7 +175,9 @@ fx.processElement = function (e, rule) {
 					break;
 				case "display":
 					if (rule[1] === "box") {
-						eachA([0,1,3],function(r){new_rules.push("display:" + prefix[0] + rule[1])});
+						eachA([0, 1, 3], function (_r) {
+							new_rules.push("display:" + prefix[0] + rule[1])
+						});
 					} else if (rule[1] === "inline-block") {
 						new_rules.push("display:" + prefix[0] + "inline-stack");
 						new_rules.push("zoom:1;*display:inline");
@@ -178,7 +211,9 @@ fx.processElement = function (e, rule) {
 							attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
 						}
 						var prop = lg + attributes;
-						eachA([0,1,2,3],function(r){rule[0] + ":" + prefix[r] + prop});
+						eachA([0, 1, 2, 3], function (_r) {
+							rule[0] + ":" + prefix[_r] + prop
+						});
 					} else if (rule[1].indexOf("rgba") !== -1) {
 						//Color array
 						var cA = rule[1].match(/rgba\((.*?)\)/)[1].split(",");
