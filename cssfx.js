@@ -146,6 +146,10 @@ fx.processElement = function (e, rule) {
 						if (prefixed_rules.indexOf(trans_prop) !== -1) {
 							new_rules.push(prefix[_r] + clean_rule.replace(trans_prop, prefix[_r] + trans_prop));
 						}
+						else{
+							new_rules.push(prefix[_r] + clean_rule);
+						}
+
 					} else if (rule[0] == "transition-property") {
 						if (_r == 0) {
 							//Only Firefox supports this at the moment
