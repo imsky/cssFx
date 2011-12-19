@@ -205,6 +205,7 @@ fx.processElement = function (e, rule) {
 				case "background-color":
 				case "background":
 					var lg = "linear-gradient";
+
 					if (rule[1].indexOf(lg) !== -1) {
 						var attributes = rule[1].substr(lg.length);
 						if (rule[0] === "background-image") {
@@ -212,7 +213,7 @@ fx.processElement = function (e, rule) {
 						}
 						var prop = lg + attributes;
 						eachA([0, 1, 2, 3], function (_r) {
-							rule[0] + ":" + prefix[_r] + prop
+							new_rules.push(rule[0] + ":" + prefix[_r] + prop);
 						});
 					} else if (rule[1].indexOf("rgba") !== -1) {
 						//Color array
