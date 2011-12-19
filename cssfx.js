@@ -176,7 +176,7 @@ fx.processElement = function (e, rule) {
 				case "display":
 					if (rule[1] === "box") {
 						eachA([0, 1, 3], function (_r) {
-							new_rules.push("display:" + prefix[0] + rule[1])
+							new_rules.push("display:" + prefix[_r] + rule[1])
 						});
 					} else if (rule[1] === "inline-block") {
 						new_rules.push("display:" + prefix[0] + "inline-stack");
