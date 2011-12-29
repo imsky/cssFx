@@ -1,29 +1,16 @@
 /*
-Copyright 2011 Ivan Malopinsky. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are
-permitted provided that the following conditions are met:
-
-   1. Redistributions of source code must retain the above copyright notice, this list of
-      conditions and the following disclaimer.
-
-   2. Redistributions in binary form must reproduce the above copyright notice, this list
-      of conditions and the following disclaimer in the documentation and/or other materials
-      provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY Ivan Malopinsky ''AS IS'' AND ANY EXPRESS OR IMPLIED
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Ivan Malopinsky OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-The views and conclusions contained in the software and documentation are those of the
-authors and should not be interpreted as representing official policies, either expressed
-or implied, of Ivan Malopinsky.*/
+ * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9
+ * http://github.com/imsky/cssFx
+ * (C) 2011 Ivan Malopinsky - http://imsky.co
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 var cssFx = cssFx || {};
 (function (fx) {
@@ -32,7 +19,7 @@ var cssFx = cssFx || {};
 
 function sjax(a){if(AJAX=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP")){AJAX.open("GET",a,false);AJAX.send(null);return AJAX.responseText}else return false}
 
-function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\s\s*$/,"")}
+function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\s\s*$/,"").replace(/\s{2,}|\t/gm, " ")}
 
 function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
@@ -47,7 +34,7 @@ function eachA(b,c){for(var d=b.length,a=0;a<d;a++)c.call(this,b[a])};
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 
 var prefixes01 = ["background-origin", "background-size", "border-image", "border-image-outset", "border-image-repeat", "border-image-source", "border-image-width", "border-radius", "box-shadow", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width"];
-var prefixes013 = ["box-flex","box-orient","box-align","box-ordinal-group","box-flex-group","box-pack","box-direction","box-lines","box-sizing"];
+var prefixes013 = ["box-flex","box-orient","box-align","box-ordinal-group","box-flex-group","box-pack","box-direction","box-lines","box-sizing","animation-duration","animation-name","animation-delay","animation-direction","animation-iteration-count","animation-play-state","animation-timing-function","animation-fill-mode"];
 var prefixes0123 = ["transform","transform-origin","transition","transition-property","transition-duration","transition-timing-function","transition-delay","user-select"];
 
 var prefixesMisc = ["background-clip","border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius"];
@@ -60,28 +47,61 @@ fx.processCSS = function (css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
+	var keyframes_regex = /@keyframes([\s\S]*?){\s*from\s*{([\s\S]*?)}\s*to\s*{([\s\S]*?)}\s*}/gim;
 	for (var x in css_files) {
 		var css = css_files[x];
 		if (typeof css === "string") {
+			css = str_trim(strip_css_comments(css));
 			var rules = [];
-			var matches = css_regex.test(css) && css.match(css_regex);
+
 			var imports = import_regex.test(css) && css.match(import_regex);
+			var keyframes = keyframes_regex.test(css) && css.match(keyframes_regex);
+
 			import_regex.lastIndex = 0;
-			css_regex.lastIndex = 0;
+
+			keyframes_regex.lastIndex = 0;
+
+			//Pre-processing
+
 			if (imports.length > 0) {
-				for (var y = 0; y < import_match_count; y++) {
+				for (var y = 0; y < imports.length; y++) {
 					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]], true));
 				}
 			}
-			for (var x in matches) {
+
+			if(keyframes.length > 0){
+				for(var y = 0; y < keyframes.length; y++){
+					css = css.replace(keyframes[y],"");
+					var nextMatch = keyframes_regex.exec(keyframes[y]);
+					eachA([0,1,3],function(_r){
+						var new_decs_from = [], new_decs_to = [];
+						eachA(nextMatch[2].split(";"), function(_j){
+							var j = str_trim(_j), d = fx.processDec(j);
+							j.length > 0 && new_decs_from.push(d?d:j)
+							});
+						eachA(nextMatch[3].split(";"), function(_j){
+							var j = str_trim(_j), d = fx.processDec(j);
+							j.length > 0 && new_decs_to.push(d?d:j)
+							});
+						rules.push("@"+prefix[_r]+"keyframes "+str_trim(nextMatch[1])+" { from {"+new_decs_from.join(";")+"} to {"+new_decs_to.join(";")+"} }");
+					});
+					keyframes_regex.lastIndex = 0;
+				}
+			}
+
+			var matches = css_regex.test(css) && css.match(css_regex);
+			css_regex.lastIndex = 0;
+
+			for (var x = 0, l = matches.length; x < l; x++){
 				var nextMatch = css_regex.exec(matches[x]);
 				if (nextMatch !== null) {
 					var selector = str_trim(strip_css_comments(nextMatch[1]));
-					var rule = str_trim(strip_css_comments(nextMatch[2])).replace(/\s{2,}|\t/gm, " ");
+					var rule = str_trim(strip_css_comments(nextMatch[2]));
 					for (var z in supported_rules) {
 						if (rule.indexOf(supported_rules[z]) !== -1) {
-							if (converted_rule = fx.processElement(selector, rule)) {
-								rules.push(converted_rule);
+
+							if (new_dec = fx.processDec(rule)) {
+								rules.push(selector + "{"+new_dec+"}");
 							}
 							break;
 						}
@@ -112,7 +132,8 @@ fx.insertCSS = function (output) {
 		}
 	}
 }
-fx.processElement = function (e, rule) {
+
+fx.processDec = function (rule) {
 	var css_array = rule.split(";"),
 		rules = [];
 	for (var r in css_array) {
@@ -125,6 +146,7 @@ fx.processElement = function (e, rule) {
 			rule[1] = str_trim(rule[1]);
 			var new_rules = [];
 			var clean_rule = rule.join(":");
+
 			if (prefixes01.indexOf(rule[0]) !== -1) {
 				new_rules.push(prefix[0] + clean_rule);
 				new_rules.push(prefix[1] + clean_rule);
@@ -233,7 +255,7 @@ fx.processElement = function (e, rule) {
 			}
 		}
 	}
-	return (rules.length > 0 ? e + "{" + rules.join(";") + "}" : false);
+	return (rules.length > 0 ? rules.join(";") : false);
 }
 fx.fetchCSS = function (files, single) {
 	var css_files = [];
