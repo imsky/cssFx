@@ -43,6 +43,7 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
-  * @keyframe support (0.9.3)
-  * media query support (0.9.5)
-  * convert sjax to ajax for external stylesheest (0.9.7)
+  * <del>@keyframe support (0.9.3)</del>
+  * convert sjax to ajax for external stylesheets (0.9.4)
+  * @keyframe intermediate keyframe support (0.9.5)
+  * media query support (0.9.6)
