@@ -50,7 +50,6 @@ fx.processCSS = function (css_files) {
 	var keyframes_regex = /@keyframes([\s\S]*?){\s*from\s*{([\s\S]*?)}\s*to\s*{([\s\S]*?)}\s*}/gim;
 	for (var x = 0; x < css_files.length; x++) {
 		var css = css_files[x];
-		if (typeof css == "string") {
 			css = str_trim(strip_css_comments(css));
 			var rules = [];
 			var imports = import_regex.test(css) && css.match(import_regex);
@@ -107,7 +106,7 @@ fx.processCSS = function (css_files) {
 			if (rules.length > 0) {
 				css_fx_output.push(rules.join("\n"));
 			}
-		}
+
 	}
 	return css_fx_output;
 }
@@ -135,29 +134,29 @@ fx.processDec = function (rule) {
 			if (rule.length != 2) {
 				return false;
 			}
-			rule[0] = str_trim(rule[0]);
-			rule[1] = str_trim(rule[1]);
+			var property = str_trim(rule[0]);
+			var value = str_trim(rule[1]);
+			var clean_rule = [property,value].join(":");
 			var new_rules = [];
-			var clean_rule = rule.join(":");
 
-			if (inArray(rule[0],prefixes01)) {
+			if (inArray(property,prefixes01)) {
 				new_rules.push(prefix[0] + clean_rule);
 				new_rules.push(prefix[1] + clean_rule);
-			} else if (inArray(rule[0],prefixes013)) {
+			} else if (inArray(property,prefixes013)) {
 				//-moz, -webkit, -ms
 				new_rules.push(prefix[0] + clean_rule);
 				new_rules.push(prefix[1] + clean_rule);
-				if (rule[0] === "box-align") {
-					new_rules.push(prefix[3] + rule[0] + ":middle");
+				if (property === "box-align") {
+					new_rules.push(prefix[3] + property + ":middle");
 				} else {
 					new_rules.push(prefix[3] + clean_rule);
 				}
-			} else if (inArray(rule[0],prefixes0123)) {
+			} else if (inArray(property,prefixes0123)) {
 				//-moz, -webkit, -o, -ms
 				//This includes all transition rules
 				eachA([0, 1, 2, 3], function (_r) {
-					if (rule[0] == "transition") {
-						var trans_prop = rule[1].split(" ")[0];
+					if (property == "transition") {
+						var trans_prop = value.split(" ")[0];
 						if (inArray(trans_prop,prefixed_rules)) {
 							new_rules.push(prefix[_r] + clean_rule.replace(trans_prop, prefix[_r] + trans_prop));
 						}
@@ -165,10 +164,10 @@ fx.processDec = function (rule) {
 							new_rules.push(prefix[_r] + clean_rule);
 						}
 
-					} else if (rule[0] == "transition-property") {
+					} else if (property == "transition-property") {
 						if (_r == 0) {
 							//Only Firefox supports this at the moment
-							var trans_props = rule[1].split(",");
+							var trans_props = value.split(",");
 							var replaced_props = [];
 							eachA(trans_props, function (p) {
 								var prop = str_trim(p);
@@ -176,66 +175,66 @@ fx.processDec = function (rule) {
 									replaced_props.push(prefix[_r] + prop);
 								}
 							});
-							new_rules.push(prefix[_r] + rule[0] + ":" + replaced_props.join(","))
+							new_rules.push(prefix[_r] + property + ":" + replaced_props.join(","))
 						}
 					} else {
 						new_rules.push(prefix[_r] + clean_rule)
 					}
 				});
 			} else {
-				switch (rule[0]) {
+				switch (property) {
 				case "border-top-left-radius":
 				case "border-top-right-radius":
 				case "border-bottom-left-radius":
 				case "border-bottom-right-radius":
-					var v = rule[0].split("-");
-					new_rules.push(prefix[0] + "border-radius-" + v[1] + v[2] + ":" + rule[1]);
+					var v = property.split("-");
+					new_rules.push(prefix[0] + "border-radius-" + v[1] + v[2] + ":" + value);
 					new_rules.push(prefix[1] + clean_rule);
 					break;
 				case "display":
-					if (rule[1] === "box") {
+					if (value === "box") {
 						eachA([0, 1, 3], function (_r) {
-							new_rules.push("display:" + prefix[_r] + rule[1])
+							new_rules.push("display:" + prefix[_r] + value)
 						});
-					} else if (rule[1] === "inline-block") {
+					} else if (value === "inline-block") {
 						new_rules.push("display:" + prefix[0] + "inline-stack");
 						new_rules.push("zoom:1;*display:inline");
 					}
 					break;
 				case "text-overflow":
-					if (rule[1] === "ellipsis") {
+					if (value === "ellipsis") {
 						new_rules.push(prefix[2] + clean_rule);
 					}
 					break;
 				case "opacity":
-					var opacity = parseInt(parseFloat(rule[1]) * 100);
+					var opacity = parseInt(parseFloat(value) * 100);
 					new_rules.push(prefix[3] + "filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=" + opacity + ")");
 					new_rules.push("filter: alpha(opacity=" + opacity + ")");
 					new_rules.push(prefix[0] + clean_rule);
 					new_rules.push(prefix[1] + clean_rule);
 					break;
 				case "background-clip":
-					if (rule[1] === "padding-box") {
+					if (value === "padding-box") {
 						new_rules.push(prefix[1] + clean_rule);
-						new_rules.push(prefix[0] + rule[0] + ":padding");
+						new_rules.push(prefix[0] + property + ":padding");
 					}
 					break;
 				case "background-image":
 				case "background-color":
 				case "background":
 					var lg = "linear-gradient";
-					if (!!~rule[1].indexOf(lg)) {
-						var attributes = rule[1].substr(lg.length);
-						if (rule[0] === "background-image") {
-							attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
+					if (!!~value.indexOf(lg)) {
+						var attributes = value.substr(lg.length);
+						if (property === "background-image") {
+							attributes = value.substr(lg.length).match(/\((.*)\)/)[0];
 						}
 						var prop = lg + attributes;
 						eachA([0, 1, 2, 3], function (_r) {
-							new_rules.push(rule[0] + ":" + prefix[_r] + prop);
+							new_rules.push(property + ":" + prefix[_r] + prop);
 						});
-					} else if (!!~rule[1].indexOf("rgba")) {
+					} else if (!!~value.indexOf("rgba")) {
 						//Color array
-						var cA = rule[1].match(/rgba\((.*?)\)/)[1].split(",");
+						var cA = value.match(/rgba\((.*?)\)/)[1].split(",");
 						var hex = Math.floor(+(str_trim(cA[3])) * 255).toString(16) + rgb2hex(+str_trim(cA[0]), +str_trim(cA[1]), +str_trim(cA[2]));
 						new_rules.push("filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#" + hex + ",endColorstr=#" + hex + ");zoom:1");
 					}
