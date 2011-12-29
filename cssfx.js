@@ -1,5 +1,5 @@
 /*
- * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9
+ * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9.3
  * http://github.com/imsky/cssFx
  * (C) 2011 Ivan Malopinsky - http://imsky.co
  * All rights reserved.
@@ -25,7 +25,7 @@ function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
 
 function rgb2hex(a,b,c){return((256+a<<8|b)<<8|c).toString(16).slice(1)}
 
-if(!Array.indexOf)Array.prototype.indexOf=function(c,b){for(var a=b||0;a<this.length;a++)if(this[a]==c)return a;return-1};
+function inArray(a,b){var c=b.length;for(var d=0;d<c;d++)if(b[d]==a)return!0;return!1}
 
 function eachA(b,c){for(var d=b.length,a=0;a<d;a++)c.call(this,b[a])};
 
@@ -48,60 +48,55 @@ fx.processCSS = function (css_files) {
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
 	var keyframes_regex = /@keyframes([\s\S]*?){\s*from\s*{([\s\S]*?)}\s*to\s*{([\s\S]*?)}\s*}/gim;
-	for (var x in css_files) {
+	for (var x = 0; x < css_files.length; x++) {
 		var css = css_files[x];
-		if (typeof css === "string") {
+		if (typeof css == "string") {
 			css = str_trim(strip_css_comments(css));
 			var rules = [];
-
 			var imports = import_regex.test(css) && css.match(import_regex);
 			var keyframes = keyframes_regex.test(css) && css.match(keyframes_regex);
-
 			import_regex.lastIndex = 0;
-
 			keyframes_regex.lastIndex = 0;
-
 			//Pre-processing
-
 			if (imports.length > 0) {
 				for (var y = 0; y < imports.length; y++) {
-					css_files.push(fx.fetchCSS([import_regex.exec(css.match(import_regex)[y])[1]], true));
+					css_files.push(fx.fetchCSS([import_regex.exec(imports[y])[1]])[0]);
+					import_regex.lastIndex = 0;
 				}
 			}
-
-			if(keyframes.length > 0){
-				for(var y = 0; y < keyframes.length; y++){
-					css = css.replace(keyframes[y],"");
+			if (keyframes.length > 0) {
+				for (var y = 0; y < keyframes.length; y++) {
+					css = css.replace(keyframes[y], "");
 					var nextMatch = keyframes_regex.exec(keyframes[y]);
-					eachA([0,1,3],function(_r){
-						var new_decs_from = [], new_decs_to = [];
-						eachA(nextMatch[2].split(";"), function(_j){
-							var j = str_trim(_j), d = fx.processDec(j);
-							j.length > 0 && new_decs_from.push(d?d:j)
-							});
-						eachA(nextMatch[3].split(";"), function(_j){
-							var j = str_trim(_j), d = fx.processDec(j);
-							j.length > 0 && new_decs_to.push(d?d:j)
-							});
-						rules.push("@"+prefix[_r]+"keyframes "+str_trim(nextMatch[1])+" { from {"+new_decs_from.join(";")+"} to {"+new_decs_to.join(";")+"} }");
+					eachA([0, 1, 3], function (_r) {
+						var new_decs_from = [],
+							new_decs_to = [];
+						eachA(nextMatch[2].split(";"), function (_j) {
+							var j = str_trim(_j),
+								d = fx.processDec(j);
+							j.length > 0 && new_decs_from.push(d ? d : j)
+						});
+						eachA(nextMatch[3].split(";"), function (_j) {
+							var j = str_trim(_j),
+								d = fx.processDec(j);
+							j.length > 0 && new_decs_to.push(d ? d : j)
+						});
+						rules.push("@" + prefix[_r] + "keyframes " + str_trim(nextMatch[1]) + " { from {" + new_decs_from.join(";") + "} to {" + new_decs_to.join(";") + "} }");
 					});
 					keyframes_regex.lastIndex = 0;
 				}
 			}
-
 			var matches = css_regex.test(css) && css.match(css_regex);
 			css_regex.lastIndex = 0;
-
-			for (var x = 0, l = matches.length; x < l; x++){
-				var nextMatch = css_regex.exec(matches[x]);
+			for (var _x = 0, l = matches.length; _x < l; _x++) {
+				var nextMatch = css_regex.exec(matches[_x]);
 				if (nextMatch !== null) {
 					var selector = str_trim(strip_css_comments(nextMatch[1]));
 					var rule = str_trim(strip_css_comments(nextMatch[2]));
-					for (var z in supported_rules) {
-						if (rule.indexOf(supported_rules[z]) !== -1) {
-
+					for (var _y = 0, _l = supported_rules.length; _y < _l; _y++) {
+						if ( !! ~rule.indexOf(supported_rules[_y])) {
 							if (new_dec = fx.processDec(rule)) {
-								rules.push(selector + "{"+new_dec+"}");
+								rules.push(selector + "{" + new_dec + "}");
 							}
 							break;
 						}
@@ -117,8 +112,7 @@ fx.processCSS = function (css_files) {
 	return css_fx_output;
 }
 fx.insertCSS = function (output) {
-	for (var x in output) {
-		if (typeof output[x] === "string") {
+	for(var x = 0; x < output.length; x++){
 			var css_fx_output = document.createElement('style');
 			css_fx_output.setAttribute('type', 'text/css');
 			if (css_fx_output.styleSheet) {
@@ -130,14 +124,13 @@ fx.insertCSS = function (output) {
 			}
 			document.getElementsByTagName("head")[0].appendChild(css_fx_output);
 		}
-	}
 }
 
 fx.processDec = function (rule) {
 	var css_array = rule.split(";"),
 		rules = [];
-	for (var r in css_array) {
-		if (typeof css_array[r] === "string" && css_array[r].indexOf(":") !== -1) {
+		for(var r = 0; r < css_array.length; r++){
+		if (!!~css_array[r].indexOf(":")) {
 			var rule = css_array[r].split(":");
 			if (rule.length != 2) {
 				return false;
@@ -147,10 +140,10 @@ fx.processDec = function (rule) {
 			var new_rules = [];
 			var clean_rule = rule.join(":");
 
-			if (prefixes01.indexOf(rule[0]) !== -1) {
+			if (inArray(rule[0],prefixes01)) {
 				new_rules.push(prefix[0] + clean_rule);
 				new_rules.push(prefix[1] + clean_rule);
-			} else if (prefixes013.indexOf(rule[0]) !== -1) {
+			} else if (inArray(rule[0],prefixes013)) {
 				//-moz, -webkit, -ms
 				new_rules.push(prefix[0] + clean_rule);
 				new_rules.push(prefix[1] + clean_rule);
@@ -159,13 +152,13 @@ fx.processDec = function (rule) {
 				} else {
 					new_rules.push(prefix[3] + clean_rule);
 				}
-			} else if (prefixes0123.indexOf(rule[0]) !== -1) {
+			} else if (inArray(rule[0],prefixes0123)) {
 				//-moz, -webkit, -o, -ms
 				//This includes all transition rules
 				eachA([0, 1, 2, 3], function (_r) {
 					if (rule[0] == "transition") {
 						var trans_prop = rule[1].split(" ")[0];
-						if (prefixed_rules.indexOf(trans_prop) !== -1) {
+						if (inArray(trans_prop,prefixed_rules)) {
 							new_rules.push(prefix[_r] + clean_rule.replace(trans_prop, prefix[_r] + trans_prop));
 						}
 						else{
@@ -179,7 +172,7 @@ fx.processDec = function (rule) {
 							var replaced_props = [];
 							eachA(trans_props, function (p) {
 								var prop = str_trim(p);
-								if (prefixed_rules.indexOf(prop) !== -1) {
+								if (inArray(prop,prefixed_rules)) {
 									replaced_props.push(prefix[_r] + prop);
 								}
 							});
@@ -231,8 +224,7 @@ fx.processDec = function (rule) {
 				case "background-color":
 				case "background":
 					var lg = "linear-gradient";
-
-					if (rule[1].indexOf(lg) !== -1) {
+					if (!!~rule[1].indexOf(lg)) {
 						var attributes = rule[1].substr(lg.length);
 						if (rule[0] === "background-image") {
 							attributes = rule[1].substr(lg.length).match(/\((.*)\)/)[0];
@@ -241,7 +233,7 @@ fx.processDec = function (rule) {
 						eachA([0, 1, 2, 3], function (_r) {
 							new_rules.push(rule[0] + ":" + prefix[_r] + prop);
 						});
-					} else if (rule[1].indexOf("rgba") !== -1) {
+					} else if (!!~rule[1].indexOf("rgba")) {
 						//Color array
 						var cA = rule[1].match(/rgba\((.*?)\)/)[1].split(",");
 						var hex = Math.floor(+(str_trim(cA[3])) * 255).toString(16) + rgb2hex(+str_trim(cA[0]), +str_trim(cA[1]), +str_trim(cA[2]));
@@ -257,12 +249,12 @@ fx.processDec = function (rule) {
 	}
 	return (rules.length > 0 ? rules.join(";") : false);
 }
-fx.fetchCSS = function (files, single) {
-	var css_files = [];
+fx.fetchCSS = function (files) {
+	var ext_files = [];
 	for (var x in files) {
-		typeof (files[x]) === "string" && css_files.push(sjax(files[x]));
+		typeof (files[x]) === "string" && ext_files.push(sjax(files[x]));
 	}
-	return single == null ? css_files : css_files[0];	//undefined coerces to null
+	return ext_files;
 }
 domReady(function () {
 	var style_els = document.getElementsByTagName("style");
