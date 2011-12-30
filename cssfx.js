@@ -29,19 +29,28 @@ function inArray(a,b){var c=b.length;for(var d=0;d<c;d++)if(b[d]==a)return!0;ret
 
 function eachA(b,c){for(var d=b.length,a=0;a<d;a++)c.call(this,b[a])};
 
+//Variable words to increase compression rate
+
+var __animation = "animation";
+var __border = "border";
+var __background = "background";
+var __box_ = "box-";
+var __column = "column";
+var __transition = "transition";
+
 //cssFx-specific data
 
 var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 
-var prefixes01 = ["background-origin", "background-size", "border-image", "border-image-outset", "border-image-repeat", "border-image-source", "border-image-width", "border-radius", "box-shadow", "column-count", "column-gap", "column-rule", "column-rule-color", "column-rule-style", "column-rule-width", "column-width"];
-var prefixes013 = ["box-flex","box-orient","box-align","box-ordinal-group","box-flex-group","box-pack","box-direction","box-lines","box-sizing","animation-duration","animation-name","animation-delay","animation-direction","animation-iteration-count","animation-play-state","animation-timing-function","animation-fill-mode"];
-var prefixes0123 = ["transform","transform-origin","transition","transition-property","transition-duration","transition-timing-function","transition-delay","user-select"];
+var prefixes01 = [__background+"-origin", __background+"-size", __border+"-image", __border+"-image-outset", __border+"-image-repeat", __border+"-image-source", __border+"-image-width", __border+"-radius", __box_+"shadow", __column+"-count", __column+"-gap", __column+"-rule", __column+"-rule-color", __column+"-rule-style", __column+"-rule-width", __column+"-width"];
+var prefixes013 = [__box_+"flex",__box_+"orient",__box_+"align",__box_+"ordinal-group",__box_+"flex-group",__box_+"pack",__box_+"direction",__box_+"lines",__box_+"sizing",__animation+"-duration",__animation+"-name",__animation+"-delay",__animation+"-direction",__animation+"-iteration-count",__animation+"-play-state",__animation+"-timing-function",__animation+"-fill-mode"];
+var prefixes0123 = ["transform","transform-origin",__transition+"",__transition+"-property",__transition+"-duration",__transition+"-timing-function",__transition+"-delay","user-select"];
 
-var prefixesMisc = ["background-clip","border-bottom-left-radius", "border-bottom-right-radius", "border-top-left-radius", "border-top-right-radius"];
+var prefixesMisc = [__background+"-clip",__border+"-bottom-left-radius", __border+"-bottom-right-radius", __border+"-top-left-radius", __border+"-top-right-radius"];
 
 var prefixed_rules = prefixesMisc.concat(prefixes0123).concat(prefixes01).concat(prefixes013);
 
-var supported_rules = ["display", "opacity", "text-overflow", "background-image", "background"].concat(prefixed_rules);
+var supported_rules = ["display", "opacity", "text-overflow", __background+"-image", __background].concat(prefixed_rules);
 
 fx.processCSS = function (css_files) {
 	var css_fx_output = [];
@@ -181,16 +190,23 @@ fx.processDec = function (rule) {
 						new_rules.push(prefix[_r] + clean_rule)
 					}
 				});
+			} else if(inArray(property,prefixesMisc)){
+
+			if(property == __background+"-clip"){
+				if (value === "padding-box") {
+						new_rules.push(prefix[1] + clean_rule);
+						new_rules.push(prefix[0] + property + ":padding");
+				}
+			}
+			else{
+				//Border-radius properties here ONLY
+				var v = property.split("-");
+				new_rules.push(prefix[0] + "border-radius-" + v[1] + v[2] + ":" + value);
+				new_rules.push(prefix[1] + clean_rule);
+			}
+
 			} else {
 				switch (property) {
-				case "border-top-left-radius":
-				case "border-top-right-radius":
-				case "border-bottom-left-radius":
-				case "border-bottom-right-radius":
-					var v = property.split("-");
-					new_rules.push(prefix[0] + "border-radius-" + v[1] + v[2] + ":" + value);
-					new_rules.push(prefix[1] + clean_rule);
-					break;
 				case "display":
 					if (value === "box") {
 						eachA([0, 1, 3], function (_r) {
@@ -213,15 +229,9 @@ fx.processDec = function (rule) {
 					new_rules.push(prefix[0] + clean_rule);
 					new_rules.push(prefix[1] + clean_rule);
 					break;
-				case "background-clip":
-					if (value === "padding-box") {
-						new_rules.push(prefix[1] + clean_rule);
-						new_rules.push(prefix[0] + property + ":padding");
-					}
-					break;
-				case "background-image":
-				case "background-color":
-				case "background":
+				case __background+"-image":
+				case __background+"-color":
+				case __background:
 					var lg = "linear-gradient";
 					if (!!~value.indexOf(lg)) {
 						var attributes = value.substr(lg.length);
