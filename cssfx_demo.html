@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src="cssfx.min.js"></script>
+    <style>
+
+/* exploded rounded corners  from http://perishablepress.com/press/2008/11/24/perfect-rounded-corners-with-css/ */
+
+.exploded-rounded-corners_old {
+  -webkit-border-bottom-right-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
+
+  -khtml-border-radius-bottomright: 10px;
+  -khtml-border-radius-bottomleft: 10px;
+  -khtml-border-radius-topright: 10px;
+  -khtml-border-radius-topleft: 10px;
+
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-topleft: 10px;
+
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.exploded-rounded-corners_cssfx {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+#demo {
+  background-color: #444;
+  color: #fff;
+  text-align: center;
+  font-family: arial;
+  padding: 25px;
+  border: 25px;
+  margin: 0 auto;
+  width: 50%;
+}
+
+#container {
+  width 50%;
+  margin: 0 auto;
+}
+
+pre {
+  text-align: left;
+  color: #ccc;
+}
+
+.source {
+  margin: 0 auto;
+}
+
+<script src="cssfx.min.js"></script>
+</style>
+<title>cssfx.js Demo</title>
+</head>
+<body>
+<div id="container">
+
+
+  <div id="demo" class="exploded-rounded-corners_cssfx">
+    <h1>Hello cssfx.js</h1>
+    <h2>CSS Source:</h2>
+    <pre>
+&lt;script src="cssfx.min.js"&lt; &lt;/script&gt;
+&lt;style&gt;
+.exploded-rounded-corners_cssfx {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+&lt;/style&gt;
+</pre>
+  </div>
+
+<br>
+
+  <div id="demo" class="exploded-rounded-corners_old">
+    <h1>Hello Standard CSS</h1>
+    <h2>CSS Source:</h2>
+    <pre>
+&lt;style&gt;
+.exploded-rounded-corners_old {
+  -webkit-border-bottom-right-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
+
+  -khtml-border-radius-bottomright: 10px;
+  -khtml-border-radius-bottomleft: 10px;
+  -khtml-border-radius-topright: 10px;
+  -khtml-border-radius-topleft: 10px;
+
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-topleft: 10px;
+
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+&lt;/style&gt;
+</pre>
+  </div>
+
+
+
+</div>
+
+
+</body>
+</html>
