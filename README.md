@@ -9,7 +9,7 @@ Border radius, box shadow, flex box, RGBA, gradients, multiple columns, border i
 
 Usage
 ------
- * See cssfx_demo.html for demo .
+ * See cssfx_demo.html for demo.
   
  * Include a script tag in your source:
 
