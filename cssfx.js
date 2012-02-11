@@ -267,19 +267,22 @@ fx.processDec = function (rule) {
 	return (rules.length > 0 ? rules.join(";") : false);
 }
 fx.fetchCSS = function (file, callback) {
+	if(callback === undefined){
+		callback = function(f){
+		fx.insertCSS(fx.processCSS([f]))
+		}
+	}
 	ajax(file,callback);
 }
 
 var fxinit = function(){
 	var style_els = document.getElementsByTagName("style");
 	var link_els = document.getElementsByTagName("link");
-	var insert = function(f){
-	fx.insertCSS(fx.processCSS([f]))
-	}
+
 	//Processing external stylesheets
 	for (var x in link_els) {
 		if (typeof (link_els[x]) === "object" && link_els[x].className === "cssfx") {
-			fx.fetchCSS(link_els[x].href,insert);
+			fx.fetchCSS(link_els[x].href);
 		}
 	}
 	var css_files = [];
