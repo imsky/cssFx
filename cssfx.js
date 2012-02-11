@@ -2,26 +2,34 @@
  * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9.3
  * http://github.com/imsky/cssFx
  * (C) 2011 Ivan Malopinsky - http://imsky.co
- * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Provided under MIT License.
  */
 
 var cssFx = cssFx || {};
 (function (fx) {
-//ded's domready
-!function(a,b){function m(a){l=1;while(a=c.shift())a()}var c=[],d,e,f=!1,g=b.documentElement,h=g.doScroll,i="DOMContentLoaded",j="addEventListener",k="onreadystatechange",l=/^loade|c/.test(b.readyState);b[j]&&b[j](i,e=function(){b.removeEventListener(i,e,f),m()},f),h&&b.attachEvent(k,d=function(){/^c/.test(b.readyState)&&(b.detachEvent(k,d),m())}),a.domReady=h?function(a){self!=top?l?a():c.push(a):function(){try{g.doScroll("left")}catch(b){return setTimeout(function(){domReady(a)},50)}a()}()}:function(a){l?a():c.push(a)}}(this,document)
 
-function sjax(a){if(AJAX=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP")){AJAX.open("GET",a,false);AJAX.send(null);return AJAX.responseText}else return false}
+function ajax(url, callback) {
+	//adapted from microAjax.js
+	//140medley.js xhr object
+	var xhr = function (a) {
+		for(a = 0; a < 4; a++) try {
+			return a ? new ActiveXObject([, "Msxml2", "Msxml3", "Microsoft"][a] + ".XMLHTTP") : new XMLHttpRequest
+		} catch(b) {}
+	}
+	if(r = xhr()) {
+		r.onreadystatechange = function () {
+			r.readyState == 4 && callback(r.responseText);
+		};
+		r.open("GET", url, true);
+		r.send(null);
+	}
+}
 
-function str_trim(a){return a.replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\s\s*$/,"").replace(/\s{2,}|\t/gm, " ")}
-
-function strip_css_comments(a){return a.replace(/\/\*([\s\S]*?)\*\//gim,"")}
+function str_combo(text,mode){
+	//If mode is defined, the function works as strip_css_comments + str_trim, otherwise as str_trim
+	return text.replace(mode != null?/\/\*([\s\S]*?)\*\//gim:"","").replace(/\n/gm,"").replace(/^\s\s*/,"").replace(/\s\s*$/,"").replace(/\s{2,}|\t/gm, " ");
+}
 
 function rgb2hex(a,b,c){return((256+a<<8|b)<<8|c).toString(16).slice(1)}
 
@@ -59,7 +67,7 @@ fx.processCSS = function (css_files) {
 	var keyframes_regex = /@keyframes([\s\S]*?){\s*from\s*{([\s\S]*?)}\s*to\s*{([\s\S]*?)}\s*}/gim;
 	for (var x = 0; x < css_files.length; x++) {
 		var css = css_files[x];
-			css = str_trim(strip_css_comments(css));
+			css = str_combo(css,1);
 			var rules = [];
 			var imports = import_regex.test(css) && css.match(import_regex);
 			var keyframes = keyframes_regex.test(css) && css.match(keyframes_regex);
@@ -80,16 +88,16 @@ fx.processCSS = function (css_files) {
 						var new_decs_from = [],
 							new_decs_to = [];
 						eachA(nextMatch[2].split(";"), function (_j) {
-							var j = str_trim(_j),
+							var j = str_combo(_j),
 								d = fx.processDec(j);
 							j.length > 0 && new_decs_from.push(d ? d : j)
 						});
 						eachA(nextMatch[3].split(";"), function (_j) {
-							var j = str_trim(_j),
+							var j = str_combo(_j),
 								d = fx.processDec(j);
 							j.length > 0 && new_decs_to.push(d ? d : j)
 						});
-						rules.push("@" + prefix[_r] + "keyframes " + str_trim(nextMatch[1]) + " { from {" + new_decs_from.join(";") + "} to {" + new_decs_to.join(";") + "} }");
+						rules.push("@" + prefix[_r] + "keyframes " + str_combo(nextMatch[1]) + " { from {" + new_decs_from.join(";") + "} to {" + new_decs_to.join(";") + "} }");
 					});
 					keyframes_regex.lastIndex = 0;
 				}
@@ -99,8 +107,8 @@ fx.processCSS = function (css_files) {
 			for (var _x = 0, l = matches.length; _x < l; _x++) {
 				var nextMatch = css_regex.exec(matches[_x]);
 				if (nextMatch !== null) {
-					var selector = str_trim(strip_css_comments(nextMatch[1]));
-					var rule = str_trim(strip_css_comments(nextMatch[2]));
+					var selector = str_combo(nextMatch[1],1);
+					var rule = str_combo(nextMatch[2],1);
 					for (var _y = 0, _l = supported_rules.length; _y < _l; _y++) {
 						if ( !! ~rule.indexOf(supported_rules[_y])) {
 							if (new_dec = fx.processDec(rule)) {
@@ -143,8 +151,8 @@ fx.processDec = function (rule) {
 			if (rule.length != 2) {
 				return false;
 			}
-			var property = str_trim(rule[0]);
-			var value = str_trim(rule[1]);
+			var property = str_combo(rule[0]);
+			var value = str_combo(rule[1]);
 			var clean_rule = [property,value].join(":");
 			var new_rules = [];
 
@@ -179,7 +187,7 @@ fx.processDec = function (rule) {
 							var trans_props = value.split(",");
 							var replaced_props = [];
 							eachA(trans_props, function (p) {
-								var prop = str_trim(p);
+								var prop = str_combo(p);
 								if (inArray(prop,prefixed_rules)) {
 									replaced_props.push(prefix[_r] + prop);
 								}
@@ -245,7 +253,7 @@ fx.processDec = function (rule) {
 					} else if (!!~value.indexOf("rgba")) {
 						//Color array
 						var cA = value.match(/rgba\((.*?)\)/)[1].split(",");
-						var hex = Math.floor(+(str_trim(cA[3])) * 255).toString(16) + rgb2hex(+str_trim(cA[0]), +str_trim(cA[1]), +str_trim(cA[2]));
+						var hex = Math.floor(+(str_combo(cA[3])) * 255).toString(16) + rgb2hex(+str_combo(cA[0]), +str_combo(cA[1]), +str_combo(cA[2]));
 						new_rules.push("filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#" + hex + ",endColorstr=#" + hex + ");zoom:1");
 					}
 					break;
@@ -258,24 +266,23 @@ fx.processDec = function (rule) {
 	}
 	return (rules.length > 0 ? rules.join(";") : false);
 }
-fx.fetchCSS = function (files) {
-	var ext_files = [];
-	for (var x in files) {
-		typeof (files[x]) === "string" && ext_files.push(sjax(files[x]));
-	}
-	return ext_files;
+fx.fetchCSS = function (file, callback) {
+	ajax(file,callback);
 }
-domReady(function () {
+
+var fxinit = function(){
 	var style_els = document.getElementsByTagName("style");
 	var link_els = document.getElementsByTagName("link");
-	var link_hrefs = [];
+	var insert = function(f){
+	fx.insertCSS(fx.processCSS([f]))
+	}
 	//Processing external stylesheets
 	for (var x in link_els) {
 		if (typeof (link_els[x]) === "object" && link_els[x].className === "cssfx") {
-			link_hrefs.push(link_els[x].href);
+			fx.fetchCSS(link_els[x].href,insert);
 		}
 	}
-	var css_files = fx.fetchCSS(link_hrefs);
+	var css_files = [];
 	//Processing in-page stylesheets
 	for (var x in style_els) {
 		if (typeof (style_els[x]) === "object") {
@@ -283,5 +290,8 @@ domReady(function () {
 		}
 	}
 	fx.insertCSS(fx.processCSS(css_files));
-})
+}
+
+window.addEventListener ? window.addEventListener('load', fxinit, false) : (window.attachEvent? window.attachEvent('onload', fxinit) : null);
+
 })(cssFx);

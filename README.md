@@ -44,6 +44,6 @@ Roadmap
 ------
 
   * <del>@keyframe support (0.9.3)</del>
-  * convert sjax to ajax for external stylesheets (0.9.4)
+  * <del>convert sjax to ajax for external stylesheets (0.9.4)</del>
   * @keyframe intermediate keyframe support (0.9.5)
   * media query support (0.9.6)
