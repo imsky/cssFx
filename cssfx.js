@@ -64,44 +64,42 @@ fx.processCSS = function (css_files) {
 	var css_fx_output = [];
 	var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 	var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
-	var keyframes_regex = /@keyframes([\s\S]*?){\s*from\s*{([\s\S]*?)}\s*to\s*{([\s\S]*?)}\s*}/gim;
+	var kf_wrap_regex = /@keyframes\s*([^\{]*)\{([^@]*)\}/g;
+
 	for (var x = 0; x < css_files.length; x++) {
 		var css = css_files[x];
 			css = str_combo(css,1);
 			var rules = [];
 			var imports = import_regex.test(css) && css.match(import_regex);
-			var keyframes = keyframes_regex.test(css) && css.match(keyframes_regex);
+			var keyframes = kf_wrap_regex.test(css) && css.match(kf_wrap_regex);
 			import_regex.lastIndex = 0;
-			keyframes_regex.lastIndex = 0;
-			//Pre-processing
-			if (imports.length > 0) {
-				for (var y = 0; y < imports.length; y++) {
-					css_files.push(fx.fetchCSS([import_regex.exec(imports[y])[1]])[0]);
-					import_regex.lastIndex = 0;
-				}
+			kf_wrap_regex.lastIndex = 0;
+
+			//Processing imports, adding them dynamically onto the files array, hence why length is recalculated on each iteration
+			for (var y = 0; y < imports.length; y++) {
+				css_files.push(fx.fetchCSS([import_regex.exec(imports[y])[1]])[0]);
+				import_regex.lastIndex = 0;
 			}
-			if (keyframes.length > 0) {
-				for (var y = 0; y < keyframes.length; y++) {
-					css = css.replace(keyframes[y], "");
-					var nextMatch = keyframes_regex.exec(keyframes[y]);
-					eachA([0, 1, 3], function (_r) {
-						var new_decs_from = [],
-							new_decs_to = [];
-						eachA(nextMatch[2].split(";"), function (_j) {
-							var j = str_combo(_j),
-								d = fx.processDec(j);
-							j.length > 0 && new_decs_from.push(d ? d : j)
-						});
-						eachA(nextMatch[3].split(";"), function (_j) {
-							var j = str_combo(_j),
-								d = fx.processDec(j);
-							j.length > 0 && new_decs_to.push(d ? d : j)
-						});
-						rules.push("@" + prefix[_r] + "keyframes " + str_combo(nextMatch[1]) + " { from {" + new_decs_from.join(";") + "} to {" + new_decs_to.join(";") + "} }");
-					});
-					keyframes_regex.lastIndex = 0;
+
+			//Processing keyframes, removing them from the main CSS, then processing each declaration individually
+			for(var y = 0, g = keyframes.length; y < g; y++){
+				css = css.replace(keyframes[y],"");
+				if(keyframe = kf_wrap_regex.exec(keyframes[y])){
+					var kfs = keyframe[2].match(css_regex), kfs_p = [];
+					for(var _k = 0; _k < kfs.length; _k++){
+						//k[1] = selector, k[2] = rule; just like in standard CSS
+						if(k = css_regex.exec(kfs[_k])){
+						kfs_p.push(str_combo(k[1]) + "{"+fx.processDec(k[2],true)+"}");
+						}
+						css_regex.lastIndex = 0;
+					}
+					eachA([0,1,3],function(_r){
+					rules.push("@" + prefix[_r] + "keyframes "+ str_combo(keyframe[1]) + "{" + kfs_p.join("\n")+"}");
+					})
 				}
+				kf_wrap_regex.lastIndex = 0;
 			}
+
 			var matches = css_regex.test(css) && css.match(css_regex);
 			css_regex.lastIndex = 0;
 			for (var _x = 0, l = matches.length; _x < l; _x++) {
@@ -120,6 +118,7 @@ fx.processCSS = function (css_files) {
 				}
 				css_regex.lastIndex = 0;
 			}
+
 			if (rules.length > 0) {
 				css_fx_output.push(rules.join("\n"));
 			}
@@ -142,7 +141,7 @@ fx.insertCSS = function (output) {
 		}
 }
 
-fx.processDec = function (rule) {
+fx.processDec = function (rule,inc) {	//the inc parameter is a boolean, deciding whether to include all properties
 	var css_array = rule.split(";"),
 		rules = [];
 		for(var r = 0; r < css_array.length; r++){
@@ -257,6 +256,11 @@ fx.processDec = function (rule) {
 						new_rules.push("filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#" + hex + ",endColorstr=#" + hex + ");zoom:1");
 					}
 					break;
+				default:
+					if(inc!==null){
+						new_rules.push(clean_rule);
+					}
+				break;
 				}
 			}
 			if (new_rules.length > 0) {
