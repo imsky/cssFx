@@ -47,3 +47,5 @@ Roadmap
   * <del>convert sjax to ajax for external stylesheets (0.9.4)</del>
   * <del>@keyframe intermediate keyframe support (0.9.5)</del>
   * media query support (0.9.6)
+  * Universal environment support (0.9.7)
+  * Gradients for IE6+ (0.9.8)

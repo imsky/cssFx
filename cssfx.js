@@ -1,9 +1,9 @@
 /*
- * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9.3
+ * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9.6
  * http://github.com/imsky/cssFx
- * (C) 2011 Ivan Malopinsky - http://imsky.co
+ * (C) 2011-2012 Ivan Malopinsky - http://imsky.co
  *
- * Provided under MIT License.
+ * Provided under BSD License.
  */
 
 var cssFx = cssFx || {};
@@ -25,6 +25,11 @@ function ajax(url, callback) {
 		r.send(null);
 	}
 }
+
+//contentLoaded
+function cL(b){
+	var a = window; var c="complete",d="readystatechange",e=!1,f=e,g=!0,h=a.document,i=h.documentElement,j=h.addEventListener?"addEventListener":"attachEvent",k=h.addEventListener?"removeEventListener":"detachEvent",l=h.addEventListener?"":"on",m=function(g){if(g.type==d&&h.readyState!=c)return;(g.type=="load"?a:h)[k](l+g.type,m,e),!f&&(f=!0)&&b.call(a,g.type||g)},n=function(){try{i.doScroll("left")}catch(a){setTimeout(n,50);return}m("poll")};if(h.readyState==c)b.call(a,"lazy");else{if(h.createEventObject&&i.doScroll){try{g=!a.frameElement}catch(o){}g&&n()}h[j](l+"DOMContentLoaded",m,e),h[j](l+d,m,e),a[j](l+"load",m,e)}
+	}
 
 function str_combo(text,mode){
 	//If mode is defined, the function works as strip_css_comments + str_trim, otherwise as str_trim
@@ -52,7 +57,7 @@ var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
 
 var prefixes01 = [__background+"-origin", __background+"-size", __border+"-image", __border+"-image-outset", __border+"-image-repeat", __border+"-image-source", __border+"-image-width", __border+"-radius", __box_+"shadow", __column+"-count", __column+"-gap", __column+"-rule", __column+"-rule-color", __column+"-rule-style", __column+"-rule-width", __column+"-width"];
 var prefixes013 = [__box_+"flex",__box_+"orient",__box_+"align",__box_+"ordinal-group",__box_+"flex-group",__box_+"pack",__box_+"direction",__box_+"lines",__box_+"sizing",__animation+"-duration",__animation+"-name",__animation+"-delay",__animation+"-direction",__animation+"-iteration-count",__animation+"-play-state",__animation+"-timing-function",__animation+"-fill-mode"];
-var prefixes0123 = ["transform","transform-origin",__transition+"",__transition+"-property",__transition+"-duration",__transition+"-timing-function",__transition+"-delay","user-select"];
+var prefixes0123 = ["transform","transform-origin",__transition,__transition+"-property",__transition+"-duration",__transition+"-timing-function",__transition+"-delay","user-select"];
 
 var prefixesMisc = [__background+"-clip",__border+"-bottom-left-radius", __border+"-bottom-right-radius", __border+"-top-left-radius", __border+"-top-right-radius"];
 
@@ -257,7 +262,7 @@ fx.processDec = function (rule,inc) {	//the inc parameter is a boolean, deciding
 					}
 					break;
 				default:
-					if(inc!==null){
+					if(inc!=null){
 						new_rules.push(clean_rule);
 					}
 				break;
@@ -299,6 +304,6 @@ var fxinit = function(){
 	fx.insertCSS(fx.processCSS(css_files));
 }
 
-window.addEventListener ? window.addEventListener('load', fxinit, false) : (window.attachEvent? window.attachEvent('onload', fxinit) : null);
+cL(fxinit);
 
 })(cssFx);
