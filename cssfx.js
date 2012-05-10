@@ -108,10 +108,10 @@ var cssFx = cssFx || {};
 
 	var supported_rules = ["display", "opacity", "text-overflow", __background + "-image", __background].concat(prefixed_rules);
 
-	fx.processCSS = function (css_files) {
+	fx.processCSS = function (css_files,url) {
 		var css_fx_output = [];
 		var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
-		var import_regex = /\@import\s+(?:url\([\'\"]|[\'\"])([\w\s\-\_\.\:\/\;\:]+)/gim;
+		var import_regex = /\@import\s+(?:url\([\'\"](.*)[\'\"]\))\s*\;?/gim;
 		var keyframes_regex = /@keyframes\s*([^\{]*)\{([^@]*)\}/g;
 
 		for (var x = 0; x < css_files.length; x++) {
@@ -122,9 +122,15 @@ var cssFx = cssFx || {};
 			import_regex.lastIndex = 0;
 			keyframes_regex.lastIndex = 0;
 
-			//Processing imports, adding them dynamically onto the files array, hence why length is recalculated on each iteration
+			//Processing imports, removing them from the main CSS, then processing and inserting them
 			for (var y = 0; y < imports.length; y++) {
-				css_files.push(fx.fetchCSS([import_regex.exec(imports[y])[1]])[0]);
+				css = css.replace(imports[y],"")
+				var file = import_regex.exec(imports[y])[1];
+				var import_url = file[0] == "/" ? file : url.replace(/[^\/]*?$/,'')+file;
+				fx.fetchCSS(import_url, function(f){
+					//Fetch @import, relative to its parent stylesheet
+					fx.insertCSS(fx.processCSS([f],url));
+				})
 				import_regex.lastIndex = 0;
 			}
 
@@ -314,7 +320,7 @@ var cssFx = cssFx || {};
 	fx.fetchCSS = function (file, callback) {
 		ajax(file, (callback == null ?
 		function (f) {
-			fx.insertCSS(fx.processCSS([f]))
+			fx.insertCSS(fx.processCSS([f],file))
 		} : callback));
 	}
 
@@ -328,6 +334,7 @@ var cssFx = cssFx || {};
 					fx.fetchCSS(link_els[x].href);
 				}
 			}
+			
 			var css_files = [];
 			//Processing in-page stylesheets
 			for (var x in style_els) {
@@ -335,7 +342,9 @@ var cssFx = cssFx || {};
 					css_files.push(style_els[x].innerHTML);
 				}
 			}
-			fx.insertCSS(fx.processCSS(css_files));
+			if(css_files.length){
+				fx.insertCSS(fx.processCSS(css_files))
+				}
 		}
 
 	cL(fxinit);
