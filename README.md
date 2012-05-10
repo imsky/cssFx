@@ -43,9 +43,11 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
-  * <del>@keyframe support (0.9.3)</del>
-  * <del>convert sjax to ajax for external stylesheets (0.9.4)</del>
-  * <del>@keyframe intermediate keyframe support (0.9.5)</del>
-  * media query support (0.9.6)
+  * Gradients for IE6+ (0.9.6)
   * Universal environment support (0.9.7)
-  * Gradients for IE6+ (0.9.8)
+  * Media queries (0.9.8)
+  
+Todo
+------
+
+  * Allow absolute URLs in import
