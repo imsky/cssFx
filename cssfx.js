@@ -111,7 +111,7 @@ var cssFx = cssFx || {};
 	fx.processCSS = function (css_files,url) {
 		var css_fx_output = [];
 		var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
-		var import_regex = /\@import\s+(?:url\([\'\"](.*)[\'\"]\))\s*\;?/gim;
+		var import_regex = /\@import\s+(?:url\([\'\"]?(.*)[\'\"]?\))\s*\;?/gim;
 		var keyframes_regex = /@keyframes\s*([^\{]*)\{([^@]*)\}/g;
 
 		for (var x = 0; x < css_files.length; x++) {
