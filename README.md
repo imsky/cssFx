@@ -43,7 +43,6 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
-  * Gradients for IE6+ (0.9.6)
   * Universal environment support (0.9.7)
   * Media queries (0.9.8)
   
