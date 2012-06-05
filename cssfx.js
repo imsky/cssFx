@@ -107,6 +107,8 @@ var cssFx = cssFx || {};
 	var prefixed_rules = prefixesMisc.concat(prefixes0123).concat(prefixes01).concat(prefixes013);
 
 	var supported_rules = ["display", "opacity", "text-overflow", __background + "-image", __background].concat(prefixed_rules);
+	
+	var ms_gradient = "filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='{1}', endColorstr='{2}',GradientType=0)";
 
 	fx.processCSS = function (css_files,url) {
 		var css_fx_output = [];
@@ -210,6 +212,7 @@ var cssFx = cssFx || {};
 				var new_rules = [];
 
 				if (inArray(property, prefixes01)) {
+					//-moz, -webkit
 					new_rules.push(_moz + clean_rule, _webkit + clean_rule);
 				} else if (inArray(property, prefixes013)) {
 					//-moz, -webkit, -ms
@@ -288,19 +291,23 @@ var cssFx = cssFx || {};
 					case __background:
 						var lg = "linear-gradient";
 						if ( !! ~value.indexOf(lg)) {
-							var attributes = value.substr(lg.length);
-							if (property === "background-image") {
-								attributes = value.substr(lg.length).match(/\((.*)\)/)[0];
+							var attributes = new RegExp(lg+"\\s?\\((.*)\\)","ig").exec(value);
+							if(attributes[1]!=null){
+								attributes = attributes[1];
+								var prop = lg + "("+attributes+")";
+								eachArray([0, 1, 2, 3], function (_r) {
+									new_rules.push(property + ":" + prefix[_r] + prop);
+								});
+								var attributes_colors = attributes.match(/\#([a-z0-9]{3,})/g);
+								if(attributes_colors.length>1 && attributes_colors[attributes_colors.length-1]!=null){
+									new_rules.push(ms_gradient.replace("{1}",attributes_colors[0]).replace("{2}",attributes_colors[attributes_colors.length-1]));
+								}
 							}
-							var prop = lg + attributes;
-							eachArray([0, 1, 2, 3], function (_r) {
-								new_rules.push(property + ":" + prefix[_r] + prop);
-							});
 						} else if ( !! ~value.indexOf("rgba")) {
 							//Color array
 							var cA = value.match(/rgba\((.*?)\)/)[1].split(",");
 							var hex = Math.floor(+(str_combo(cA[3])) * 255).toString(16) + rgb2hex(+str_combo(cA[0]), +str_combo(cA[1]), +str_combo(cA[2]));
-							new_rules.push("filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#" + hex + ",endColorstr=#" + hex + ");zoom:1");
+							new_rules.push(ms_gradient.replace("{1}","#"+hex).replace("{2}","#"+hex)+";zoom:1");
 						}
 						break;
 					default:
