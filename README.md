@@ -40,7 +40,7 @@ License
 ------
 cssFx is provided under the BSD license. Commercial and personal use is permitted.
 
-Roadmap
+Roadma
 ------
 
   * New gradient syntax support (0.9.7)
