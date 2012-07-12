@@ -43,8 +43,9 @@ cssFx is provided under the BSD license. Commercial and personal use is permitte
 Roadmap
 ------
 
-  * Universal environment support (0.9.7)
-  * Media queries (0.9.8)
+  * New gradient syntax support (0.9.7)
+  * AMD compatibility (0.9.8)
+  * Media queries (0.9.9)
   
 Todo
 ------
