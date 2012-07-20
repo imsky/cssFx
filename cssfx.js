@@ -299,7 +299,7 @@ var cssFx = cssFx || {};
 									new_rules.push(property + ":" + prefix[_r] + prop);
 								});
 								var attributes_colors = attributes.match(/\#([a-z0-9]{3,})/g);
-								if(attributes_colors.length>1 && attributes_colors[attributes_colors.length-1]!=null){
+								if(attributes_colors && attributes_colors.length>1 && attributes_colors[attributes_colors.length-1]!=null){
 									new_rules.push(ms_gradient.replace("{1}",attributes_colors[0]).replace("{2}",attributes_colors[attributes_colors.length-1]));
 								}
 							}
