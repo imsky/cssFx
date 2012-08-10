@@ -1,20 +1,20 @@
 cssFx
-------
+-----
 
-cssFx is a standalone polyfill that inserts the vendor-specific CSS3 properties necessary for old and new browsers. This saves you tons of time, maintenance, and bandwidth!
+cssFx automatically adds vendor-specific prefixes (-moz, -webkit, -ms, and -o) to CSS3 properties that need them. It's tiny (5K) and has no external dependencies. 
 
 Properties Supported
-------
-Border radius, box shadow, flex box, RGBA, gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
+--------------------
+Border radius, box shadow, flex box, RGBA, linear gradients, multiple columns, border image, transforms, transitions, opacity, inline-block, ellipsis, and more.
 
 Usage
-------
+-----
  * Include a script tag in your source:
-
-``` html
-<script src="cssfx.min.js"></script>
-```
-
+ 
+ ``` html
+ <script src="cssfx.min.js"></script>
+ ```
+ 
  * Give any external stylesheets you want processed the "cssfx" class:
 
  ``` html
@@ -22,7 +22,7 @@ Usage
  ```
 
 Browsers Supported
-------
+------------------
 
   * Firefox 3+
   * Chrome 1+
@@ -31,23 +31,19 @@ Browsers Supported
   * Opera 9+
 
 Important Considerations
-------
+------------------------
 
-* IE and other browsers variously remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
-* To prevent FOUC (flash of unstyled content), place cssfx.js immediately under the stylesheet tags
+* IE and other browsers remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
+* To prevent FOUC (flash of unstyled content), place cssfx.js immediately under the stylesheet tags.
+* cssFx adds the prefixes necessary to enable CSS3 functionality in supporting browsers, it doesn't simulate it (e.g. border-radius in IE6).
 
 License
-------
+-------
 cssFx is provided under the BSD license. Commercial and personal use is permitted.
 
-Roadma
-------
+Roadmap
+-------
 
-  * New gradient syntax support (0.9.7)
   * AMD compatibility (0.9.8)
-  * Media queries (0.9.9)
-  
-Todo
-------
-
-  * Allow absolute URLs in import
+  * Debug view (0.9.9)
+  * Media queries, API documentation (1.0)
