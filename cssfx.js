@@ -41,47 +41,11 @@ var cssFx = cssFx || {};
 		}
 	}
 
-	function cL(b) {
-	//contentLoaded
-		var a = window;
-		var c = "complete",
-			d = "readystatechange",
-			e = !1,
-			f = e,
-			g = !0,
-			h = a.document,
-			i = h.documentElement,
-			j = h.addEventListener ? "addEventListener" : "attachEvent",
-			k = h.addEventListener ? "removeEventListener" : "detachEvent",
-			l = h.addEventListener ? "" : "on",
-			m = function (g) {
-				if (g.type == d && h.readyState != c) return;
-				(g.type == "load" ? a : h)[k](l + g.type, m, e), !f && (f = !0) && b.call(a, g.type || g)
-			},
-			n = function () {
-				try {
-					i.doScroll("left")
-				} catch (a) {
-					setTimeout(n, 50);
-					return
-				}
-				m("poll")
-			};
-		if (h.readyState == c) b.call(a, "lazy");
-		else {
-			if (h.createEventObject && i.doScroll) {
-				try {
-					g = !a.frameElement
-				} catch (o) {}
-				g && n()
-			}
-			h[j](l + "DOMContentLoaded", m, e), h[j](l + d, m, e), a[j](l + "load", m, e)
-		}
-	}
+	function contentLoaded(e){var t=window,n="addEventListener",r="complete",i="readystatechange",s=!1,o=s,u=!0,a=t.document,f=a.documentElement,l=a[n]?n:"attachEvent",c=a[n]?"removeEventListener":"detachEvent",h=a[n]?"":"on",p=function(n){if(n.type==i&&a.readyState!=r)return;(n.type=="load"?t:a)[c](h+n.type,p,s),!o&&(o=!0)&&e.call(t,n.type||n)},d=function(){try{f.doScroll("left")}catch(e){setTimeout(d,50);return}p("poll")};if(a.readyState==r)e.call(t,"lazy");else{if(a.createEventObject&&f.doScroll){try{u=!t.frameElement}catch(v){}u&&d()}a[l](h+"DOMContentLoaded",p,s),a[l](h+i,p,s),t[l](h+"load",p,s)}}
 
 	function str_combo(text, mode) {
 		//If mode is defined, the function works as strip_css_comments + str_trim, otherwise as str_trim
-		return text.replace(mode != null ? /\/\*([\s\S]*?)\*\//gim : "", "").replace(/\n/gm, "").replace(/^\s\s*/, "").replace(/\s\s*$/, "").replace(/\s{2,}|\t/gm, " ");
+		return text.replace(mode != null ? /\/\*([\s\S]*?)\*\//gim : "", "").replace(/\n/gm, "").replace(/^\s*|\s*$/g,"").replace(/\s{2,}|\t/gm, " ");
 	}
 
 	function rgb2hex(a, b, c) {
@@ -90,8 +54,7 @@ var cssFx = cssFx || {};
 	}
 
 	function inArray(a, b) {
-		var c = b.length;
-		for (var d = 0; d < c; d++) if (b[d] == a) return !0;
+		for (var d = 0, c = b.length; d < c; d++) if (b[d] == a) return !0;
 		return !1
 	}
 
@@ -99,30 +62,90 @@ var cssFx = cssFx || {};
 		for (var d = b.length, a = 0; a < d; a++) c.call(this, b[a])
 	};
 
-	//Variable words to increase compression rate
-	var __animation = "animation";
-	var __border = "border";
-	var __background = "background";
-	var __box_ = "box-";
-	var __column = "column";
-	var __transition = "transition";
-
+	
+function props() {
+	var animation = "animation",
+		border = "border",
+		background = "background",
+		box = "box",
+		column = "column",
+		transition = "transition",
+		transform = "transform",
+		properties = {
+			moz_and_webkit: [
+				background + "-origin",
+				background + "-size",
+				border + "-image",
+				border + "-image-outset",
+				border + "-image-repeat",
+				border + "-image-source",
+				border + "-image-width",
+				border + "-radius",
+				box + "-shadow",
+				column + "-count",
+				column + "-gap",
+				column + "-rule",
+				column + "-rule-color",
+				column + "-rule-style",
+				column + "-rule-width",
+				column + "-width"],
+			
+			moz_and_webkit_and_ms: [
+				box + "-flex",
+				box + "-orient",
+				box + "-align",
+				box + "-ordinal-group",
+				box + "-flex-group",
+				box + "-pack",
+				box + "-direction",
+				box + "-lines",
+				box + "-sizing",
+				animation + "-duration",
+				animation + "-name",
+				animation + "-delay",
+				animation + "-direction",
+				animation + "-iteration-count",
+				animation + "-play-state",
+				animation + "-timing-function",
+				animation + "-fill-mode"],
+			
+			moz_and_webkit_and_ms_and_opera: [
+				transform,
+				transform + "-origin",
+				transition,
+				transition + "-property",
+				transition + "-duration",
+				transition + "-timing-function",
+				transition + "-delay",
+				"user-select"],
+			
+			misc: [
+				background + "-clip",
+				border + "-bottom-left-radius",
+				border + "-bottom-right-radius",
+				border + "-top-left-radius",
+				border + "-top-right-radius"
+			]
+		}
+	return properties;
+}
+	
 	//cssFx-specific data
 	var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"];
+	var properties = props();
 	var _moz = prefix[0],
 		_webkit = prefix[1],
 		_opera = prefix[2],
 		_ms = prefix[3];
 
-	var prefixes01 = [__background + "-origin", __background + "-size", __border + "-image", __border + "-image-outset", __border + "-image-repeat", __border + "-image-source", __border + "-image-width", __border + "-radius", __box_ + "shadow", __column + "-count", __column + "-gap", __column + "-rule", __column + "-rule-color", __column + "-rule-style", __column + "-rule-width", __column + "-width"];
-	var prefixes013 = [__box_ + "flex", __box_ + "orient", __box_ + "align", __box_ + "ordinal-group", __box_ + "flex-group", __box_ + "pack", __box_ + "direction", __box_ + "lines", __box_ + "sizing", __animation + "-duration", __animation + "-name", __animation + "-delay", __animation + "-direction", __animation + "-iteration-count", __animation + "-play-state", __animation + "-timing-function", __animation + "-fill-mode"];
-	var prefixes0123 = ["transform", "transform-origin", __transition, __transition + "-property", __transition + "-duration", __transition + "-timing-function", __transition + "-delay", "user-select"];
+	var prefixes01 = properties.moz_and_webkit;
+	var prefixes013 = properties.moz_and_webkit_and_ms;
+	var prefixes0123 = properties.moz_and_webkit_and_ms_and_opera;
+	var prefixesMisc = properties.misc;
 
-	var prefixesMisc = [__background + "-clip", __border + "-bottom-left-radius", __border + "-bottom-right-radius", __border + "-top-left-radius", __border + "-top-right-radius"];
+	var prefixed_rules = prefixesMisc.concat(prefixes0123, prefixes01, prefixes013);
 
-	var prefixed_rules = prefixesMisc.concat(prefixes0123).concat(prefixes01).concat(prefixes013);
-
-	var supported_rules = ["display", "opacity", "text-overflow", __background + "-image", __background].concat(prefixed_rules);
+	var supported_rules = ["display", "opacity", "text-overflow", "background-image", "background"].concat(prefixed_rules);
 	
 	var ms_gradient = "filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='{1}', endColorstr='{2}',GradientType=0)";
 
@@ -167,8 +190,8 @@ var cssFx = cssFx || {};
 						}
 						css_regex.lastIndex = 0;
 					}
-					forEach([0, 1, 3], function (_r) {
-						rules.push("@" + prefix[_r] + "keyframes " + str_combo(keyframe[1]) + "{" + kfs_p.join("\n") + "}");
+					forEach([0, 1, 3], function (i) {
+						rules.push("@" + prefix[i] + "keyframes " + str_combo(keyframe[1]) + "{" + kfs_p.join("\n") + "}");
 					})
 				}
 				keyframes_regex.lastIndex = 0;
@@ -219,14 +242,16 @@ var cssFx = cssFx || {};
 
 	fx.processDec = function (originalRule, includeAllProperties) {
 		var css_array = originalRule.split(";"),
-			rules = [];
+			rules = [], __background = "background";
 			
 		for (var r = 0; r < css_array.length; r++) {
-			if (css_array[r].indexOf(":")>=0) {
+			
+			if (css_array[r].indexOf(":")<0) continue;
+			
 				var rule = css_array[r].split(":");
-				if (rule.length != 2) {
-					return false;
-				}
+				
+				if (rule.length != 2) continue;
+				
 				var property = str_combo(rule[0]);
 				var value = str_combo(rule[1]);
 				var clean_rule = [property, value].join(":");
@@ -243,30 +268,33 @@ var cssFx = cssFx || {};
 				} else if (inArray(property, prefixes0123)) {
 					//-moz, -webkit, -o, -ms
 					//This includes all transition rules
-					forEach([0, 1, 2, 3], function (_r) {
+					forEach([0, 1, 2, 3], function (i) {
+						
+						var current_prefix = prefix[i];
+						
 						if (property == "transition") {
 							var trans_prop = value.split(" ")[0];
 							if (inArray(trans_prop, prefixed_rules)) {
-								new_rules.push(prefix[_r] + clean_rule.replace(trans_prop, prefix[_r] + trans_prop));
+								new_rules.push(current_prefix + clean_rule.replace(trans_prop, current_prefix + trans_prop));
 							} else {
-								new_rules.push(prefix[_r] + clean_rule);
+								new_rules.push(current_prefix + clean_rule);
 							}
 
 						} else if (property == "transition-property") {
-							if (_r == 0) {
+							if (current_prefix == _moz) {
 								//Only Firefox supports this at the moment
 								var trans_props = value.split(",");
 								var replaced_props = [];
 								forEach(trans_props, function (p) {
 									var prop = str_combo(p);
 									if (inArray(prop, prefixed_rules)) {
-										replaced_props.push(prefix[_r] + prop);
+										replaced_props.push(current_prefix + prop);
 									}
 								});
-								new_rules.push(prefix[_r] + property + ":" + replaced_props.join(","))
+								new_rules.push(current_prefix + property + ":" + replaced_props.join(","))
 							}
 						} else {
-							new_rules.push(prefix[_r] + clean_rule)
+							new_rules.push(current_prefix + clean_rule);
 						}
 					});
 				} else if (inArray(property, prefixesMisc)) {
@@ -288,8 +316,8 @@ var cssFx = cssFx || {};
 					case "display":
 						if (value == "box") {
 							//display:box
-							forEach([0, 1, 3], function (_r) {
-								new_rules.push("display:" + prefix[_r] + value)
+							forEach([0, 1, 3], function (i) {
+								new_rules.push("display:" + prefix[i] + value)
 							});
 						} else if (value == "inline-block") {
 							//display:inline-block
@@ -318,8 +346,8 @@ var cssFx = cssFx || {};
 							if(attributes[1]!=null){
 								attributes = attributes[1];
 								var prop = lg + "("+attributes+")";
-								forEach([0, 1, 2, 3], function (_r) {
-									new_rules.push(property + ":" + prefix[_r] + prop);
+								forEach([0, 1, 2, 3], function (i) {
+									new_rules.push(property + ":" + prefix[i] + prop);
 								});
 								var attributes_colors = attributes.match(/\#([a-z0-9]{3,})/g);
 								if(attributes_colors && attributes_colors.length>1 && attributes_colors[attributes_colors.length-1]!=null){
@@ -340,9 +368,8 @@ var cssFx = cssFx || {};
 					break;
 					}
 				}
-				if (new_rules.length) {
-					rules.push(new_rules.join(";"));
-				}
+			if (new_rules.length) {
+				rules.push(new_rules.join(";"));
 			}
 		}
 		return rules.length && rules.join(";");
@@ -373,11 +400,12 @@ var cssFx = cssFx || {};
 					css_files.push(style_els[x].innerHTML);
 				}
 			}
+			
 			if(css_files.length){
 				fx.insertCSS(fx.processCSS(css_files))
 				}
 		}
 
-	cL(fxinit);
+	contentLoaded(fxinit);
 
 })(cssFx);
