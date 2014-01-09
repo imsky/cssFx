@@ -1,7 +1,7 @@
-Prefixer
+cssFx
 --------
 
-Prefixer automatically adds vendor-specific prefixes to CSS properties that need them.
+cssFx automatically adds vendor-specific prefixes to CSS properties that need them.
 
 Usage
 -----
@@ -10,10 +10,6 @@ Usage
 ``` html
 <script src="prefixer.js"></script>
 ```
-
-Supported properties
---------------------
-...
 
 Browsers Supported
 ------------------
@@ -33,4 +29,4 @@ Important Considerations
 
 License
 -------
-Prefixer is provided under the BSD license.
+Prefixer is provided under the MIT license.
