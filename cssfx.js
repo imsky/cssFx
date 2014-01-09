@@ -22,21 +22,6 @@ var cssFx = cssFx || {};
  * 		
  */
 
- /* 1.0 rewrite
-
-Focus on the big stuff first:
-Import
-Media queries
-Anything introduced since 2011: radial gradients, etc
-Build hash table out of properties and assign browser-specificity there, instead of the other way around
-Add require.js compatibility
-Add middleware compatibility
-Add it as a service on Heroku or some other PaaS
-New site: focus on middleware, Node.js integration, better points than prefix-free
-Replace FOUC and AJAX-based approach with an attached console that lets users copy the generated CSS and the generated URL for the middleware
-
- */
-
 (function (fx) {
 
 	function ajax(url, callback) {
