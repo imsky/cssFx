@@ -8,7 +8,7 @@ Usage
  * Include a script tag in your source:
  
 ``` html
-<script src="prefixer.js"></script>
+<script src="cssfx.js"></script>
 ```
 
 Browsers Supported
