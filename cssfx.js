@@ -352,7 +352,7 @@ function props() {
 						//Color array
 						var cA = value.match(/rgba\((.*?)\)/)[1].split(",");
 						var hex = Math.floor(+(str_combo(cA[3])) * 255).toString(16) + rgb2hex(+str_combo(cA[0]), + str_combo(cA[1]), + str_combo(cA[2]));
-						new_rules.push(ms_gradient.replace("{1}", "#" + hex).replace("{2}", "#" + hex) + ";zoom:1");
+            new_rules.push("*background:transparent;" + ms_gradient.replace("{1}", "#" + hex).replace("{2}", "#" + hex) + ";zoom:1");
 					}
 					break;
 				default:
