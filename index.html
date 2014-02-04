@@ -1,109 +1,81 @@
-<!doctype html>
-<!--
-		cssFx is made by Ivan Malopinsky (http://imsky.co)
-		Thanks for reading the source, give my site a visit :)
--->
+<!DOCTYPE html>
 <html>
-<head>
-	<title>cssFx.js - CSS3 property polyfill - It's So Futuristic, Baby!</title>
-	<meta name="description" content="cssFx is a standalone polyfill that adds all the vendor-specific CSS3 properties you normally have to add for older browsers. This saves you tons of time, maintenance, and bandwidth!">
-<style type="text/css">
-html {
-	background-color:#003e66
-}
-body {
-	margin:0;
-	padding:0;
-	background: linear-gradient(top,#09121e 0%,#003e66 100%) repeat-x;
-	padding:30px 0
-}
-body {
-	font-family:Arial;
-	color:#fff
-}
-</style>
-<script type="text/javascript" src="cssfx.min.js"></script>
-<script type="text/javascript">
-function generateHandler(){
-	document.getElementById("generate").onclick = function(){
-	var newCSS = cssFx.processCSS([document.getElementById("example-from-text").value])[0];
-	document.getElementById("example-to-text").value=newCSS.replace(/\{/g," { \r\n").replace(/\}/g,"\n}\r\n\n").replace(/\;/g,";\n");
-	}
-	}
-</script>
-<link rel="stylesheet" href="cssfx.css" class="cssfx">
-</head>
-<body onload="generateHandler()">
-<a href="https://github.com/imsky/cssFx"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
-<div id="cssfx">
-	<h1>cssFx</h1>
-	<h2>It's so futuristic, baby!</h2>
-	<div id="lead">
-	<p id="desc">
-		 cssFx is a standalone polyfill that inserts the vendor-specific CSS3 properties necessary for old <em title="Without cssFx, you wouldn't see the flexbox layout below in Firefox 7, Chrome 16, or Internet Explorer 10.">and new</em> browsers. This saves you tons of time, maintenance, and bandwidth! Check it out:
-	</p>
-	<div id="download-well">
-		<a href="http://github.com/imsky/cssFx/zipball/master" id="download">Download cssFx 0.9.7 (3 KB)</a>
-	</div>
-	</div>
-	<div id="example">
-		<div id="example-from">
-		<h3>CSS Rules</h3>
-		<textarea id="example-from-text">#example {
-box-shadow:0px 0px 15px #407fab;
-border-radius:10px;
-display:box;
-box-pack:center;
-box-align:center
-} </textarea>
-		</div>
-		<div id="example-to">
-		<h3>cssFx Generated Rules</h3>
-		<textarea id="example-to-text">#example {
--moz-box-shadow:0px 0px 15px #407fab;
--webkit-box-shadow:0px 0px 15px #407fab;
--moz-border-radius:10px;
--webkit-border-radius:10px;
-display:-moz-box;
-display:-webkit-box;
-display:-ms-box;
--moz-box-pack:center;
--webkit-box-pack:center;
--ms-box-pack:center;
--moz-box-align:center;
--webkit-box-align:center;
--ms-box-align: middle
-}</textarea>
-		</div>
-		<button id="generate">Generate Prefixes!</button>
-	</div>
-	<h3>What features are supported?</h3>
-	<p>
-		Box shadows, border radius, multiple columns, border image, RGBA, transforms, keyframes, transitions (and properties inside transitions), flexible box, gradients, and a ton of other useful things (like opacity, ellipsis, and inline-block).
-	</p>
-	<h3>Which browsers are supported?</h3>
-	<p>
-		Firefox 3+, Chrome 1+, Internet Explorer 6+, Safari 3+, Opera 9+.
-	</p>
-	<h3>How do I use it?</h3>
-	<p>
-		Include the JS file, and give external stylesheets the "cssfx" class:
-	</p>
-	<code>&lt;link rel="stylesheet" href="effects.css" class="cssfx"&gt;</code>
-	<code>&lt;script src="cssfx.min.js"&gt;&lt;/script&gt;</code><br>
-	<small>Made by <a href="http://imsky.co">Ivan Malopinsky</a></small>
-</div>
-<!-- Piwik -->
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://analytics.imsky.co/" : "http://analytics.imsky.co/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://analytics.imsky.co/piwik.php?idsite=4" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
-</body>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="cssFx : cssFx inserts vendor prefixes for CSS3 properties." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>cssFx</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/imsky/cssFx">View on GitHub</a>
+
+          <h1 id="project_title">cssFx</h1>
+          <h2 id="project_tagline">cssFx inserts vendor prefixes for CSS3 properties.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/imsky/cssFx/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/imsky/cssFx/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a name="cssfx" class="anchor" href="#cssfx"><span class="octicon octicon-link"></span></a>cssFx</h2>
+
+<p>cssFx automatically adds vendor-specific prefixes to CSS properties that need them.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<ul>
+<li>Include a script tag in your source:</li>
+</ul><div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"cssfx.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<h2>
+<a name="browsers-supported" class="anchor" href="#browsers-supported"><span class="octicon octicon-link"></span></a>Browsers Supported</h2>
+
+<ul>
+<li>Firefox 3+</li>
+<li>Chrome 1+</li>
+<li>Internet Explorer 6+</li>
+<li>Safari 3+</li>
+<li>Opera 9+</li>
+</ul><h2>
+<a name="important-considerations" class="anchor" href="#important-considerations"><span class="octicon octicon-link"></span></a>Important Considerations</h2>
+
+<ul>
+<li>IE and other browsers remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.</li>
+<li>To prevent FOUC (flash of unstyled content), place cssfx.js immediately under the stylesheet tags.</li>
+<li>cssFx adds the prefixes necessary to enable CSS3 functionality in supporting browsers, it doesn't simulate it (e.g. border-radius in IE6).</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>cssFx is provided under the MIT license.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">cssFx maintained by <a href="https://github.com/imsky">imsky</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
 </html>
