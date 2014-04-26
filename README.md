@@ -29,4 +29,4 @@ Important Considerations
 
 License
 -------
-Prefixer is provided under the MIT license.
+cssFx is provided under the MIT license.
