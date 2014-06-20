@@ -1,0 +1,24 @@
+{
+  "name": "cssFx",
+  "homepage": "https://github.com/imsky/cssFx",
+  "authors": [
+    "Ivan Malopinsky <ivan@imsky.co>"
+  ],
+  "description": "CSS3 vendor prefix generator.",
+  "main": "cssfx.js",
+  "keywords": [
+    "css",
+    "prefix",
+    "vendor",
+    "css3",
+    "polyfill"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

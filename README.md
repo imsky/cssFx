@@ -1,11 +1,17 @@
 cssFx
---------
+-----
 
 cssFx automatically adds vendor-specific prefixes to CSS properties that need them.
 
+Installing
+----------
+
+You can install cssFx with Bower: `bower install cssfx`.
+
 Usage
 -----
- * Include a script tag in your source:
+
+Include a script tag in your source:
  
 ``` html
 <script src="cssfx.js"></script>
@@ -29,4 +35,4 @@ Important Considerations
 
 License
 -------
-Prefixer is provided under the MIT license.
+cssFx is provided under the MIT license.
