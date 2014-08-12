@@ -1,7 +1,7 @@
 /*
- * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9.7
+ * cssFx.js - Vendor prefix polyfill for CSS3 properties - v0.9.8
  * http://github.com/imsky/cssFx
- * (C) 2011-2012 Ivan Malopinsky - http://imsky.co
+ * (C) 2011-2014 Ivan Malopinsky - http://imsky.co
  *
  * Provided under BSD License.
  */
@@ -61,88 +61,72 @@ var cssFx = cssFx || {};
 	function forEach(b, c) {
 		for (var d = b.length, a = 0; a < d; a++) c.call(this, b[a])
 	};
-
-	
-function props() {
-	var animation = "animation",
-		border = "border",
-		background = "background",
-		box = "box",
-		column = "column",
-		transition = "transition",
-		transform = "transform",
-		image = "image",
-		radius = "radius",
-		rule = "rule",
-		properties = {
-			moz_webkit: [
-				background + "-origin",
-				background + "-size",
-				border + "-" + image,
-				border + "-" + image + "-outset",
-				border + "-" + image + "-repeat",
-				border + "-" + image + "-source",
-				border + "-" + image + "-width",
-				border + "-radius",
-				box + "-shadow",
-				column + "-count",
-				column + "-gap",
-				column + "-" + rule,
-				column + "-" + rule + "-color",
-				column + "-" + rule + "-style",
-				column + "-" + rule + "-width",
-				column + "-width"],
-			
-			moz_webkit_ms: [
-				box + "-flex",
-				box + "-orient",
-				box + "-align",
-				box + "-ordinal-group",
-				box + "-flex-group",
-				box + "-pack",
-				box + "-direction",
-				box + "-lines",
-				box + "-sizing",
-				animation + "-duration",
-				animation + "-name",
-				animation + "-delay",
-				animation + "-direction",
-				animation + "-iteration-count",
-				animation + "-play-state",
-				animation + "-timing-function",
-				animation + "-fill-mode"],
-			
-			moz_webkit_ms_o: [
-				transform,
-				transform + "-origin",
-				transition,
-				transition + "-property",
-				transition + "-duration",
-				transition + "-timing-function",
-				transition + "-delay",
-				"user-select"],
-			
-			misc: [
-				background + "-clip",
-				border + "-bottom-left-" + radius,
-				border + "-bottom-right-" + radius,
-				border + "-top-left-" + radius,
-				border + "-top-right-" + radius
-			]
-		}
-	return properties;
-}
 	
 	//cssFx-specific data
 	var prefix = ["-moz-", "-webkit-", "-o-", "-ms-"],
-		properties = props(),
-		
-		MOZ =		prefix[0],
-		WEBKIT =	prefix[1],
-		OPERA = 	prefix[2],
-		MS = 		prefix[3];
+		properties = {
+			"moz_webkit": [
+				"background-origin",
+				"background-size",
+				"border-image",
+				"border-image-outset",
+				"border-image-repeat",
+				"border-image-source",
+				"border-image-width",
+				"border-radius",
+				"box-shadow",
+				"column-count",
+				"column-gap",
+				"column-rule",
+				"column-rule-color",
+				"column-rule-style",
+				"column-rule-width",
+				"column-width"
+			],
+			"moz_webkit_ms": [
+				"box-flex",
+				"box-orient",
+				"box-align",
+				"box-ordinal-group",
+				"box-flex-group",
+				"box-pack",
+				"box-direction",
+				"box-lines",
+				"box-sizing",
+				"animation-duration",
+				"animation-name",
+				"animation-delay",
+				"animation-direction",
+				"animation-iteration-count",
+				"animation-play-state",
+				"animation-timing-function",
+				"animation-fill-mode"
+			],
+			"moz_webkit_ms_o": [
+				"transform",
+				"transform-origin",
+				"transition",
+				"transition-property",
+				"transition-duration",
+				"transition-timing-function",
+				"transition-delay",
+				"user-select"
+			],
+			"misc": [
+				"background-clip",
+				"border-bottom-left-radius",
+				"border-bottom-right-radius",
+				"border-top-left-radius",
+				"border-top-right-radius"
+			]
+		},
 
-		var prefixes01 = properties.moz_webkit,
+		MOZ = prefix[0],
+		WEBKIT = prefix[1],
+		OPERA = prefix[2],
+		MS = prefix[3];
+
+	var prefixes01 = properties.moz_webkit,
 		prefixes013 = properties.moz_webkit_ms,
 		prefixes0123 = properties.moz_webkit_ms_o,
 		prefixesMisc = properties.misc;
@@ -150,10 +134,10 @@ function props() {
 	var prefixed_rules = prefixesMisc.concat(prefixes0123, prefixes01, prefixes013);
 
 	var supported_rules = ["display", "opacity", "text-overflow", "background-image", "background"].concat(prefixed_rules);
-	
+
 	var ms_gradient = "filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='{1}', endColorstr='{2}',GradientType=0)";
 
-	fx.processCSS = function (cssFiles,url) {
+	fx.processCSS = function(cssFiles, url) {
 		var css_fx_output = [];
 		var css_regex = /([\s\S]*?)\{([\s\S]*?)\}/gim;
 		var import_regex = /\@import\s+(?:url\([\'\"]?(.*)[\'\"]?\))\s*\;?/gim;
@@ -169,12 +153,12 @@ function props() {
 
 			//Processing imports, removing them from the main CSS, then processing and inserting them
 			for (var y = 0; y < imports.length; y++) {
-				css = css.replace(imports[y],"")
+				css = css.replace(imports[y], "")
 				var file = import_regex.exec(imports[y])[1];
-				var import_url = file[0] == "/" ? file : url.replace(/[^\/]*?$/,'')+file;
-				fx.fetchCSS(import_url, function(f){
+				var import_url = file[0] == "/" ? file : url.replace(/[^\/]*?$/, '') + file;
+				fx.fetchCSS(import_url, function(f) {
 					//Fetch @import, relative to its parent stylesheet
-					fx.insertCSS(fx.processCSS([f],url));
+					fx.insertCSS(fx.processCSS([f], url));
 				})
 				import_regex.lastIndex = 0;
 			}
@@ -194,7 +178,7 @@ function props() {
 						}
 						css_regex.lastIndex = 0;
 					}
-					forEach([0, 1, 3], function (i) {
+					forEach([0, 1, 3], function(i) {
 						rules.push("@" + prefix[i] + "keyframes " + str_combo(keyframe[1]) + "{" + kfs_p.join("\n") + "}");
 					})
 				}
@@ -209,7 +193,7 @@ function props() {
 					var selector = str_combo(nextMatch[1], 1);
 					var rule = str_combo(nextMatch[2], 1);
 					for (var _y = 0, _l = supported_rules.length; _y < _l; _y++) {
-						if (rule.indexOf(supported_rules[_y])>=0) {
+						if (rule.indexOf(supported_rules[_y]) >= 0) {
 							var new_dec = fx.processDec(rule);
 							if (new_dec) {
 								rules.push(selector + "{" + new_dec + "}");
@@ -228,8 +212,8 @@ function props() {
 		}
 		return css_fx_output;
 	}
-	
-	fx.insertCSS = function (output) {
+
+	fx.insertCSS = function(output) {
 		for (var x = 0; x < output.length; x++) {
 			var css_fx_output = document.createElement('style');
 			css_fx_output.setAttribute('type', 'text/css');
@@ -244,20 +228,20 @@ function props() {
 		}
 	}
 
-	fx.processDec = function (originalRule, includeAllProperties) {
+	fx.processDec = function(originalRule, includeAllProperties) {
 		var css_array = originalRule.split(";"),
 			rules = [],
 			__background = "background";
 		for (var r = 0; r < css_array.length; r++) {
-			
+
 			if (css_array[r].indexOf(":") < 0) continue;
 			var rule = css_array[r].split(":");
 			if (rule.length != 2) continue;
-			
+
 			var property = str_combo(rule[0]),
 				value = str_combo(rule[1]),
 				clean_rule = [property, value].join(":");
-				
+
 			var new_rules = [];
 			if (inArray(property, prefixes01)) {
 				//-moz, -webkit
@@ -265,11 +249,11 @@ function props() {
 			} else if (inArray(property, prefixes013)) {
 				//-moz, -webkit, -ms
 				new_rules.push(MOZ + clean_rule,
-				WEBKIT + clean_rule, (property == "box-align" ? MS + property + ":middle" : MS + clean_rule));
+					WEBKIT + clean_rule, (property == "box-align" ? MS + property + ":middle" : MS + clean_rule));
 			} else if (inArray(property, prefixes0123)) {
 				//-moz, -webkit, -o, -ms
 				//This includes all transition rules
-				forEach([0, 1, 2, 3], function (i) {
+				forEach([0, 1, 2, 3], function(i) {
 					var current_prefix = prefix[i];
 					if (property == "transition") {
 						var trans_prop = value.split(" ")[0];
@@ -283,7 +267,7 @@ function props() {
 							//Only Firefox supports this at the moment
 							var trans_props = value.split(",");
 							var replaced_props = [];
-							forEach(trans_props, function (p) {
+							forEach(trans_props, function(p) {
 								var prop = str_combo(p);
 								if (inArray(prop, prefixed_rules)) {
 									replaced_props.push(current_prefix + prop);
@@ -299,67 +283,67 @@ function props() {
 				if (property == __background + "-clip") {
 					if (value === "padding-box") {
 						new_rules.push(WEBKIT + clean_rule,
-						MOZ + property + ":padding");
+							MOZ + property + ":padding");
 					}
 				} else {
 					//Border-radius properties here ONLY
 					var v = property.split("-");
 					new_rules.push(MOZ + "border-radius-" + v[1] + v[2] + ":" + value,
-					WEBKIT + clean_rule);
+						WEBKIT + clean_rule);
 				}
 			} else {
 				switch (property) {
-				case "display":
-					if (value == "box") {
-						//display:box
-						forEach([0, 1, 3], function (i) {
-							new_rules.push("display:" + prefix[i] + value)
-						});
-					} else if (value == "inline-block") {
-						//display:inline-block
-						new_rules.push("display:" + MOZ + "inline-stack", clean_rule,"zoom:1;*display:inline");
-					}
-					break;
-				case "text-overflow":
-					if (value == "ellipsis") {
-						new_rules.push(OPERA + clean_rule);
-					}
-					break;
-				case "opacity":
-					var opacity = Math.round(value * 100);
-					new_rules.push(MS + "filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=" + opacity + ")", "filter: alpha(opacity=" + opacity + ")",
-					MOZ + clean_rule,
-					WEBKIT + clean_rule);
-					break;
-				case __background + "-image":
-				case __background + "-color":
-				case __background:
-					var lg = "linear-gradient";
-					if (value.indexOf(lg) >= 0) {
-						var attributes = new RegExp(lg + "\\s?\\((.*)\\)", "ig").exec(value);
-						if (attributes[1] != null) {
-							attributes = attributes[1];
-							var prop = lg + "(" + attributes + ")";
-							forEach([0, 1, 2, 3], function (i) {
-								new_rules.push(property + ":" + prefix[i] + prop);
+					case "display":
+						if (value == "box") {
+							//display:box
+							forEach([0, 1, 3], function(i) {
+								new_rules.push("display:" + prefix[i] + value)
 							});
-							var attributes_colors = attributes.match(/\#([a-z0-9]{3,})/g);
-							if (attributes_colors && attributes_colors.length > 1 && attributes_colors[attributes_colors.length - 1] != null) {
-								new_rules.push(ms_gradient.replace("{1}", attributes_colors[0]).replace("{2}", attributes_colors[attributes_colors.length - 1]));
-							}
+						} else if (value == "inline-block") {
+							//display:inline-block
+							new_rules.push("display:" + MOZ + "inline-stack", clean_rule, "zoom:1;*display:inline");
 						}
-					} else if (value.indexOf("rgba") >= 0) {
-						//Color array
-						var cA = value.match(/rgba\((.*?)\)/)[1].split(",");
-						var hex = Math.floor(+(str_combo(cA[3])) * 255).toString(16) + rgb2hex(+str_combo(cA[0]), + str_combo(cA[1]), + str_combo(cA[2]));
-            new_rules.push("*background:transparent;" + ms_gradient.replace("{1}", "#" + hex).replace("{2}", "#" + hex) + ";zoom:1");
-					}
-					break;
-				default:
-					if ( !! includeAllProperties) {
-						new_rules.push(clean_rule);
-					}
-					break;
+						break;
+					case "text-overflow":
+						if (value == "ellipsis") {
+							new_rules.push(OPERA + clean_rule);
+						}
+						break;
+					case "opacity":
+						var opacity = Math.round(value * 100);
+						new_rules.push(MS + "filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=" + opacity + ")", "filter: alpha(opacity=" + opacity + ")",
+							MOZ + clean_rule,
+							WEBKIT + clean_rule);
+						break;
+					case __background + "-image":
+					case __background + "-color":
+					case __background:
+						var lg = "linear-gradient";
+						if (value.indexOf(lg) >= 0) {
+							var attributes = new RegExp(lg + "\\s?\\((.*)\\)", "ig").exec(value);
+							if (attributes[1] != null) {
+								attributes = attributes[1];
+								var prop = lg + "(" + attributes + ")";
+								forEach([0, 1, 2, 3], function(i) {
+									new_rules.push(property + ":" + prefix[i] + prop);
+								});
+								var attributes_colors = attributes.match(/\#([a-z0-9]{3,})/g);
+								if (attributes_colors && attributes_colors.length > 1 && attributes_colors[attributes_colors.length - 1] != null) {
+									new_rules.push(ms_gradient.replace("{1}", attributes_colors[0]).replace("{2}", attributes_colors[attributes_colors.length - 1]));
+								}
+							}
+						} else if (value.indexOf("rgba") >= 0) {
+							//Color array
+							var cA = value.match(/rgba\((.*?)\)/)[1].split(",");
+							var hex = Math.floor(+(str_combo(cA[3])) * 255).toString(16) + rgb2hex(+str_combo(cA[0]), +str_combo(cA[1]), +str_combo(cA[2]));
+							new_rules.push("*background:transparent;" + ms_gradient.replace("{1}", "#" + hex).replace("{2}", "#" + hex) + ";zoom:1");
+						}
+						break;
+					default:
+						if (!!includeAllProperties) {
+							new_rules.push(clean_rule);
+						}
+						break;
 				}
 			}
 			if (new_rules.length) {
@@ -368,38 +352,37 @@ function props() {
 		}
 		return rules.length && rules.join(";");
 	}
-	
-	fx.fetchCSS = function (file, callback) {
+
+	fx.fetchCSS = function(file, callback) {
 		ajax(file, (callback == null ?
-		function (f) {
-			fx.insertCSS(fx.processCSS([f],file))
-		} : callback));
+			function(f) {
+				fx.insertCSS(fx.processCSS([f], file))
+			} : callback));
 	}
 
-	var fxinit = function () {
-			var style_els = document.getElementsByTagName("style");
-			var link_els = document.getElementsByTagName("link");
+	var fxinit = function() {
+		var style_els = document.getElementsByTagName("style");
+		var link_els = document.getElementsByTagName("link");
 
-			//Processing external stylesheets
-			for (var x in link_els) {
-				if (typeof (link_els[x]) === "object" && link_els[x].className === "cssfx") {
-					fx.fetchCSS(link_els[x].href);
-				}
+		//Processing external stylesheets
+		for (var x in link_els) {
+			if (typeof(link_els[x]) === "object" && link_els[x].className === "cssfx") {
+				fx.fetchCSS(link_els[x].href);
 			}
-			
-			var css_files = [];
-			//Processing in-page stylesheets
-			for (var x in style_els) {
-				if (typeof (style_els[x]) === "object") {
-					css_files.push(style_els[x].innerHTML);
-				}
-			}
-			
-			if(css_files.length){
-				fx.insertCSS(fx.processCSS(css_files))
-				}
 		}
 
-	contentLoaded(fxinit);
+		var css_files = [];
+		//Processing in-page stylesheets
+		for (var x in style_els) {
+			if (typeof(style_els[x]) === "object") {
+				css_files.push(style_els[x].innerHTML);
+			}
+		}
 
+		if (css_files.length) {
+			fx.insertCSS(fx.processCSS(css_files))
+		}
+	}
+
+	contentLoaded(fxinit);
 })(cssFx);
