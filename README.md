@@ -34,7 +34,7 @@ Important Considerations
 
 * IE and other browsers remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
 * To prevent FOUC (flash of unstyled content), place cssfx.js immediately under the stylesheet tags.
-* cssFx only adds prefixes, not functionality. It does not polyfill functionality that the browser doesn't offer.
+* cssFx only adds prefixes, not functionality. It does not polyfill functionality unavailable in the browser.
 
 License
 -------
