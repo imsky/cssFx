@@ -1,21 +1,24 @@
 cssFx
 -----
 
-cssFx automatically adds vendor-specific prefixes to CSS properties that need them.
+cssFx adds vendor-specific prefixes to your stylesheets.
+
+How it works
+------------
+
+When the document has finished loading, internal (`<style>`) and external (`<link>`) stylesheets are processed, fetching any `@import` stylesheets as well. It's recommended to bundle stylesheets into one file to minimize request overhead. Once processing is done, a new `<style>` tag is appended to the `<head>` with processed properties. Properties for all vendors (Mozilla, Webkit, Opera, Microsoft) are included by default.
 
 Installing
 ----------
 
-You can install cssFx with Bower: `bower install cssfx`.
+[Download cssFx](https://github.com/imsky/cssFx/zipball/master) or install it with Bower: `bower install cssfx`.
 
 Usage
 -----
 
-Include a script tag in your source:
- 
-``` html
-<script src="cssfx.js"></script>
-```
+Include cssFx in your `<head>` tag: `<script src="cssfx.js"></script>`
+
+Make sure any external stylesheets you want processed have the `cssfx` class.
 
 Browsers Supported
 ------------------
@@ -31,8 +34,14 @@ Important Considerations
 
 * IE and other browsers remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.
 * To prevent FOUC (flash of unstyled content), place cssfx.js immediately under the stylesheet tags.
-* cssFx adds the prefixes necessary to enable CSS3 functionality in supporting browsers, it doesn't simulate it (e.g. border-radius in IE6).
+* cssFx only adds prefixes, not functionality. It does not polyfill functionality that the browser doesn't offer.
 
 License
 -------
+
 cssFx is provided under the MIT license.
+
+Credits
+-------
+
+cssFx is a project by [Ivan Malopinsky](http://imsky.co).
