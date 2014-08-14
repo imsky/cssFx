@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="cssFx : cssFx inserts vendor prefixes for CSS3 properties." />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>cssFx</title>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>cssFx by imsky</title>
   </head>
 
   <body>
+    <div id="container">
+      <div class="inner">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/imsky/cssFx">View on GitHub</a>
-
-          <h1 id="project_title">cssFx</h1>
-          <h2 id="project_tagline">cssFx inserts vendor prefixes for CSS3 properties.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/imsky/cssFx/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/imsky/cssFx/tarball/master">Download this project as a tar.gz file</a>
-            </section>
+        <header>
+          <h1>cssFx</h1>
+          <h2>cssFx inserts vendor prefixes for CSS3 properties.</h2>
         </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h2>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/imsky/cssFx/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/imsky/cssFx/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/imsky/cssFx" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h2>
 <a name="cssfx" class="anchor" href="#cssfx"><span class="octicon octicon-link"></span></a>cssFx</h2>
 
-<p>cssFx automatically adds vendor-specific prefixes to CSS properties that need them.</p>
+<p>cssFx adds vendor-specific prefixes to your stylesheets.</p>
+
+<h2>
+<a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How it works</h2>
+
+<p>When the document has finished loading, internal (<code>&lt;style&gt;</code>) and external (<code>&lt;link&gt;</code>) stylesheets are processed, fetching any <code>@import</code> stylesheets as well. It's recommended to bundle stylesheets into one file to minimize request overhead. Once processing is done, a new <code>&lt;style&gt;</code> tag is appended to the <code>&lt;head&gt;</code> with processed properties. Properties for all vendors (Mozilla, Webkit, Opera, Microsoft) are included by default.</p>
+
+<h2>
+<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h2>
+
+<p><a href="https://github.com/imsky/cssFx/zipball/master">Download cssFx</a> or install it with Bower: <code>bower install cssfx</code>.</p>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<ul>
-<li>Include a script tag in your source:</li>
-</ul><div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"cssfx.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-</pre></div>
+<p>Include cssFx in your <code>&lt;head&gt;</code> tag: <code>&lt;script src="cssfx.js"&gt;&lt;/script&gt;</code></p>
+
+<p>Make sure any external stylesheets you want processed have the <code>cssfx</code> class.</p>
 
 <h2>
 <a name="browsers-supported" class="anchor" href="#browsers-supported"><span class="octicon octicon-link"></span></a>Browsers Supported</h2>
@@ -59,23 +68,25 @@
 <ul>
 <li>IE and other browsers remove either unknown properties or properties with unknown values. To guarantee that all properties are parsed, link your stylesheet externally.</li>
 <li>To prevent FOUC (flash of unstyled content), place cssfx.js immediately under the stylesheet tags.</li>
-<li>cssFx adds the prefixes necessary to enable CSS3 functionality in supporting browsers, it doesn't simulate it (e.g. border-radius in IE6).</li>
+<li>cssFx only adds prefixes. It does not polyfill functionality unavailable in the browser.</li>
 </ul><h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>cssFx is provided under the MIT license.</p>
-      </section>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<p>cssFx is a project by <a href="http://imsky.co">Ivan Malopinsky</a>.</p>
+        </section>
+
+        <footer>
+          cssFx is maintained by <a href="https://github.com/imsky">imsky</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">cssFx maintained by <a href="https://github.com/imsky">imsky</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
   </body>
 </html>
