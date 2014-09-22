@@ -1,2 +1,2 @@
-*.less
-properties.html
+node_modules/
+test/
