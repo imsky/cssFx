@@ -60,6 +60,7 @@ var forEach = helpers.forEach;
 				"animation-fill-mode"
 			],
 			"moz_webkit_ms_o": [
+				"perspective",
 				"transform",
 				"transform-origin",
 				"transition",
