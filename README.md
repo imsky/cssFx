@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fimsky%2FcssFx.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fimsky%2FcssFx?ref=badge_shield)
+
 cssFx
 -----
 
@@ -47,3 +49,7 @@ Credits
 -------
 
 cssFx is a project by [Ivan Malopinsky](http://imsky.co).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fimsky%2FcssFx.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fimsky%2FcssFx?ref=badge_large)
